@@ -1,0 +1,641 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+.exact-contact {
+  position: relative;
+  background-color: var(--color-primary); /* same dark as the Checklist section */
+  color: white;
+  min-height: 100vh;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+}
+
+.exact-contact-bg-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 20% 20%, rgba(47, 174, 78, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(52, 211, 153, 0.05) 0%, transparent 50%),
+    linear-gradient(45deg, transparent 49%, rgba(255, 255, 255, 0.025) 50%, transparent 51%);
+  background-size: 400px 400px, 300px 300px, 50px 50px;
+  animation: exact-pattern-float 20s ease-in-out infinite;
+}
+
+@keyframes exact-pattern-float {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(-10px, -20px) rotate(1deg); }
+  50% { transform: translate(20px, -10px) rotate(-1deg); }
+  75% { transform: translate(-15px, 10px) rotate(0.5deg); }
+}
+
+.exact-container {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+}
+
+.exact-contact-header {
+  text-align: center;
+  margin-bottom: 4rem;
+  animation: exact-fade-in-up 0.8s ease-out;
+}
+
+.exact-header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(52, 211, 153, 0.3);
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  color: var(--color-accent-light);
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  backdrop-filter: blur(10px);
+  animation: exact-badge-glow 2s ease-in-out infinite alternate;
+}
+
+.exact-badge-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+@keyframes exact-badge-glow {
+  0% { box-shadow: 0 8px 20px rgba(47, 174, 78, 0.2); }
+  100% { box-shadow: 0 8px 28px rgba(47, 174, 78, 0.35); }
+}
+
+.exact-contact-header h2 {
+  color: var(--color-accent-light);
+  margin-bottom: 1rem;
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  line-height: 1.2;
+}
+
+.exact-contact-header p {
+  font-size: clamp(0.95rem, 1.6vw, 1.05rem);
+  color: rgba(255, 255, 255, 0.75);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+.exact-contact-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.exact-contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  animation: exact-slide-in-left 1s ease-out 0.2s both;
+}
+
+.exact-contact-card {
+  position: relative;
+  display: flex;
+  gap: 1.25rem;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.75rem;
+  color: white;
+  border-radius: 20px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.exact-contact-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(47, 174, 78, 0.10) 0%, rgba(52, 211, 153, 0.04) 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.exact-contact-card:hover::before {
+  opacity: 1;
+}
+
+.exact-card-glow {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(135deg, rgba(47, 174, 78, 0.25), rgba(52, 211, 153, 0.15));
+  border-radius: 22px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: -1;
+}
+
+.exact-contact-card:hover .exact-card-glow {
+  opacity: 1;
+}
+
+.exact-contact-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+  border-color: var(--color-accent);
+}
+
+.exact-contact-icon {
+  width: 3rem;
+  height: 3rem;
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-teal) 100%);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  flex-shrink: 0;
+  box-shadow: 0 8px 25px rgba(47, 174, 78, 0.3);
+  transition: all 0.3s ease;
+}
+
+.exact-contact-card:hover .exact-contact-icon {
+  transform: rotate(10deg) scale(1.1);
+  box-shadow: 0 12px 35px rgba(47, 174, 78, 0.4);
+}
+
+.exact-contact-icon svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.exact-contact-details h3 {
+  color: white;
+  margin-bottom: 0.75rem;
+  font-size: clamp(1.1rem, 2vw, 1.25rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+.exact-contact-details p {
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  font-weight: 400;
+}
+
+.exact-postal-info {
+  color: rgba(255, 255, 255, 0.5) !important;
+  font-size: 0.875rem !important;
+}
+
+.exact-contact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-accent-light);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0.5rem 0;
+}
+
+.exact-contact-link:hover {
+  color: white;
+  transform: translateX(5px);
+}
+
+.exact-link-icon {
+  width: 1rem;
+  height: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.exact-contact-link:hover .exact-link-icon {
+  transform: rotate(15deg);
+}
+
+.exact-hours {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.exact-hour-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.exact-hour-row:hover {
+  padding-left: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+
+.exact-day {
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.exact-time {
+  color: var(--color-accent-light);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.exact-hour-row.exact-closed .exact-day,
+.exact-hour-row.exact-closed .exact-time {
+  color: #dc2626;
+}
+
+.exact-phone-numbers {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.exact-phone-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+}
+
+.exact-phone-link:hover {
+  background: rgba(47, 174, 78, 0.15);
+  border-color: var(--color-accent);
+  transform: translateX(5px);
+  color: white;
+}
+
+.exact-phone-link:active {
+  transform: translateX(3px) scale(0.98);
+}
+
+.exact-phone-icon {
+  width: 1.125rem;
+  height: 1.125rem;
+  color: var(--color-accent-light);
+  pointer-events: none;
+}
+
+.exact-email-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+}
+
+.exact-email-link:hover {
+  background: rgba(47, 174, 78, 0.15);
+  border-color: var(--color-accent);
+  transform: translateX(5px);
+  color: white;
+}
+
+.exact-email-link:active {
+  transform: translateX(3px) scale(0.98);
+}
+
+.exact-email-icon {
+  width: 1.125rem;
+  height: 1.125rem;
+  color: var(--color-accent-light);
+  pointer-events: none;
+}
+
+.exact-contact-map {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  animation: exact-slide-in-right 1s ease-out 0.4s both;
+}
+
+.exact-map-container {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.exact-map-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35);
+  border-color: var(--color-accent);
+}
+
+.exact-map-header {
+  padding: 1.5rem;
+  text-align: center;
+  background: linear-gradient(135deg, rgba(47, 174, 78, 0.10) 0%, rgba(52, 211, 153, 0.04) 100%);
+}
+
+.exact-map-header h3 {
+  color: white;
+  margin-bottom: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.exact-map-header p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.875rem;
+}
+
+.exact-map-frame {
+  position: relative;
+  overflow: hidden;
+}
+
+.exact-whatsapp-cta {
+  position: relative;
+  background: linear-gradient(135deg, var(--color-whatsapp) 0%, var(--color-success) 100%);
+  color: white;
+  padding: 2rem;
+  border-radius: 24px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(37, 211, 102, 0.2);
+  overflow: hidden;
+  transition: all 0.4s ease;
+}
+
+.exact-whatsapp-cta:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 30px 60px rgba(37, 211, 102, 0.3);
+}
+
+.exact-whatsapp-bg-effect {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  animation: exact-whatsapp-pulse 4s ease-in-out infinite;
+}
+
+@keyframes exact-whatsapp-pulse {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.3; }
+  50% { transform: scale(1.1) rotate(180deg); opacity: 0.1; }
+}
+
+.exact-whatsapp-content {
+  position: relative;
+  z-index: 1;
+}
+
+.exact-whatsapp-icon-large {
+  width: 4rem;
+  height: 4rem;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  backdrop-filter: blur(10px);
+  animation: exact-icon-bounce 2s ease-in-out infinite;
+}
+
+@keyframes exact-icon-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.exact-whatsapp-icon-large svg {
+  width: 2rem;
+  height: 2rem;
+  color: white;
+}
+
+.exact-whatsapp-cta h3 {
+  color: white;
+  margin-bottom: 0.75rem;
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.exact-whatsapp-cta p {
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.exact-btn-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  text-decoration: none;
+}
+
+.exact-btn-whatsapp:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.exact-btn-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  transition: transform 0.3s ease;
+}
+
+.exact-btn-whatsapp:hover .exact-btn-icon {
+  transform: rotate(15deg) scale(1.1);
+}
+
+/* Animations */
+@keyframes exact-fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes exact-slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes exact-slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.exact-fade-in-up {
+  animation: exact-fade-in-up 0.8s ease-out;
+}
+
+.exact-slide-in-right {
+  animation: exact-slide-in-right 1s ease-out 0.4s both;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .exact-container {
+    padding: 3rem 1.25rem;
+  }
+  
+  .exact-contact-content {
+    gap: 2.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .exact-contact-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .exact-contact-card {
+    padding: 1.5rem;
+  }
+  
+  .exact-contact-header {
+    margin-bottom: 3rem;
+  }
+  
+  .exact-whatsapp-cta {
+    padding: 1.75rem;
+  }
+  
+  .exact-container {
+    padding: 2.5rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .exact-contact-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  .exact-contact-icon {
+    align-self: center;
+  }
+  
+  .exact-phone-numbers,
+  .exact-email-link {
+    align-items: center;
+  }
+  
+  .exact-whatsapp-cta {
+    padding: 1.5rem;
+  }
+  
+  .exact-container {
+    padding: 2rem 0.75rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .exact-contact-header h2 {
+    font-size: 1.6rem;
+  }
+  
+  .exact-contact-card {
+    padding: 1.25rem;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .exact-contact-card {
+    border: 2px solid #ffffff;
+  }
+  
+  .exact-contact-header h2 {
+    color: #ffffff;
+  }
+}

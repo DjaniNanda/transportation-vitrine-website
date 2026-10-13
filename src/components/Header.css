@@ -1,0 +1,232 @@
+/* Navbar — ported from the Lovely Serenity reference site, retheme via
+   CSS variables (var(--color-primary) / var(--color-accent)) and with
+   the CTA buttons removed. */
+
+.navbar-wrapper {
+  width: 100%;
+}
+
+.navbar {
+  background-color: var(--color-primary);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 77px;
+  padding: 0;
+}
+
+.navbar-inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-brand img {
+  margin-left: 25px;
+  width: 75px;
+  height: 75px;
+  object-fit: cover;
+  padding: 4px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: #fff;
+}
+
+.navbar-nav {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  margin: 0;
+}
+
+.navbar-nav .nav-link {
+  margin-right: 63px;
+  color: var(--color-accent-light);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  transition: color 0.3s;
+  cursor: pointer;
+}
+
+.navbar-nav .nav-item:last-child .nav-link {
+  margin-right: 0;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #fff;
+}
+
+/* "Call Us" button — the one CTA kept in the navbar */
+.nav-item-call {
+  margin-left:200px;
+}
+
+.call-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #0d0d0d;
+  background-color: var(--color-accent);
+  padding: 0 23px;
+  height: 46px;
+  width: 120px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all 0.3s;
+}
+
+.call-button:hover {
+  color: #fff;
+  background-color: var(--color-accent-dark);
+}
+
+.call-button svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* Floating "Call" button — mobile/tablet only, fixed at the bottom of
+   the screen, matching the reference site's mobile CTA pattern. */
+.floating-call-wrapper {
+  display: none;
+}
+
+.floating-call-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--color-accent);
+  color: #0d0d0d;
+  padding: 0 28px;
+  height: 58px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s;
+}
+
+.floating-call-button:hover {
+  background-color: var(--color-accent-dark);
+  color: #fff;
+}
+
+.floating-call-button svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* Toggler button (mobile hamburger) */
+.navbar-toggler {
+  display: none;
+  border: none;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.navbar-toggler:focus {
+  outline: none;
+}
+
+/* Medium screens and below: collapse into a dropdown panel */
+@media (max-width: 992px) {
+  .navbar-toggler {
+    display: flex;
+    align-items: center;
+  }
+
+  .navbar-collapse {
+    display: none;
+    position: fixed;
+    top: 68px;
+    left: 0;
+    right: 0;
+    background-color: var(--color-primary);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .navbar-collapse.show {
+    display: block;
+  }
+
+  .navbar-nav {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .navbar-nav .nav-link {
+    margin-right: 0;
+    width: 100%;
+    padding: 15px 5%;
+    height: auto;
+  }
+
+  .nav-item-call {
+    margin: 10px 5% 15px;
+  }
+
+  .call-button {
+    width: 100%;
+    justify-content: center;
+    height: 50px;
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar {
+    height: 60px;
+  }
+
+  .navbar-collapse {
+    top: 60px;
+  }
+
+  .navbar-brand img {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+/* Below the point where nav collapses into the hamburger menu (phones
+   and tablets), swap the in-menu "Call" link for a floating bottom
+   button (matches the reference site's mobile pattern). */
+@media (max-width: 992px) {
+  .nav-item-call {
+    display: none;
+  }
+
+  .floating-call-wrapper {
+    display: flex;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+  }
+}

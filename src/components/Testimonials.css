@@ -1,0 +1,354 @@
+/* Main Section */
+.testimonials-section {
+  position: relative;
+  min-height: 100vh;
+  padding: 5rem 1.5rem;
+  /* Same light palette as the About section (white background, dark text). */
+  background-color: #fff;
+  color: #333;
+  /* clip (not hidden) so position: sticky still works inside the section */
+  overflow: clip;
+}
+
+/* Container */
+.testimonials-container {
+  position: relative;
+  z-index: 10;
+  max-width: 80rem;
+  margin: 0 auto;
+}
+
+/* Header */
+.testimonials-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.testimonials-section .header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background-color: rgba(47, 174, 78, 0.12);
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(47, 174, 78, 0.35);
+  margin-bottom: 1.5rem;
+}
+
+.testimonials-section .badge-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--color-accent-dark);
+}
+
+.testimonials-section .badge-text {
+  color: var(--color-accent-dark);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Title: same treatment as the About heading (dark text + green underline) */
+.testimonials-section .main-title {
+  position: relative;
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 1.5rem;
+  padding-bottom: 15px;
+}
+
+.testimonials-section .main-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background-color: var(--color-accent);
+}
+
+@media (min-width: 768px) {
+  .testimonials-section .main-title {
+    font-size: 3rem;
+  }
+}
+
+/* CTA Section */
+.reviews-cta-section {
+  text-align: center;
+}
+
+/* Prefixed "reviews-cta-*" on purpose: plain .cta-container / .cta-button are
+   also defined in About.css / Services.css, and CSS here is global, so the
+   unprefixed names leaked into this section and broke its layout. */
+.reviews-cta-container {
+  background-color: #f8f9fa;
+  border-radius: 1.5rem;
+  padding: 3rem;
+  border: 1px solid #e5e5e5;
+  max-width: 56rem;
+  margin: 0 auto;
+}
+
+.reviews-cta-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .reviews-cta-title {
+    font-size: 2.25rem;
+  }
+}
+
+.reviews-cta-description {
+  color: #555;
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
+  max-width: 32rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.reviews-cta-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--color-primary); /* same dark pill button as About's CTA */
+  color: white;
+  font-weight: 600;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 1.125rem;
+  overflow: hidden;
+}
+
+.reviews-cta-button:hover {
+  background: var(--color-accent-dark);
+  transform: scale(1.05);
+  box-shadow: 0 12px 25px -5px rgba(0, 0, 0, 0.2);
+}
+
+.reviews-cta-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  transition: transform 0.3s;
+}
+
+/* ==========================================================================
+   Stacked-card scroll effect ("simple overlap")
+   --------------------------------------------------------------------------
+   Pure CSS. Every card is `position: sticky` inside .stack-cards and pins
+   near the top of the screen; the next card slides up and covers it.
+
+   Tuning (all on .reviews-stack-wrapper below):
+     --stack-top     where the first card pins (clears the 77px fixed header)
+     --stack-offset  how far each later card pins below the previous one.
+                     Set to 0px for a perfectly flat "one card replaces the
+                     other" look; a few px lets a sliver of each earlier card
+                     peek out so it reads as a pile.
+     --stack-gap     scroll distance between one card and the next
+     --stack-end     extra scroll the finished pile stays pinned for
+
+   Layout notes — both matter for sticky to work:
+   1. Spacing between cards is done with .stack-spacer elements, NOT with
+      margins on the cards. A sticky element's margin box has to fit inside
+      its parent, so a big margin-bottom makes each card unpin too early and
+      the last card never gets to cover the one before it.
+   2. No ancestor of .stack-card may use overflow: hidden/auto/scroll (it
+      silently disables sticky). .App and .testimonials-section therefore use
+      `overflow: clip` instead of `hidden`.
+   ========================================================================== */
+.reviews-stack-wrapper {
+  --stack-top: 120px;
+  --stack-offset: 14px;
+  --stack-gap: 45vh;
+  --stack-end: 25vh;
+
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto 4rem;
+}
+
+.stack-cards {
+  position: relative;
+}
+
+.stack-card {
+  position: sticky;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 860px;
+  min-height: 24rem;
+  margin: 0 auto;
+  padding: 3.5rem;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 -10px 30px -10px rgba(0, 0, 0, 0.35);
+  /* Opaque on purpose: a see-through card would show the one beneath it. */
+  background-color: var(--color-primary);
+  background-image: linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03));
+}
+
+.stack-spacer {
+  height: var(--stack-gap);
+}
+
+.stack-spacer:last-child {
+  height: var(--stack-end);
+}
+
+.stack-card-quote-icon {
+  width: 3rem;
+  height: 3rem;
+  color: var(--color-accent-light);
+  opacity: 0.6;
+  margin-bottom: 1.25rem;
+}
+
+.stack-card-rating {
+  display: flex;
+  gap: 0.3rem;
+  margin-bottom: 1.5rem;
+}
+
+.stack-card-star {
+  width: 1.4rem;
+  height: 1.4rem;
+  color: #fbbf24;
+  fill: currentColor;
+}
+
+.stack-card-text {
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 1.5rem;
+  line-height: 1.6;
+  font-weight: 500;
+  margin-bottom: 2.5rem;
+}
+
+.stack-card-author {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: auto; /* keeps the author at the bottom of taller cards */
+}
+
+.stack-card-avatar {
+  width: 3.5rem;
+  height: 3.5rem;
+  flex-shrink: 0;
+  background: linear-gradient(to bottom right, var(--color-accent-light), var(--color-teal));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 1.15rem;
+}
+
+.stack-card-name {
+  color: white;
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+.stack-card-subtitle {
+  color: var(--color-accent-lighter);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .reviews-stack-wrapper {
+    --stack-top: 96px;
+    --stack-offset: 10px;
+    --stack-gap: 35vh;
+  }
+
+  .stack-card {
+    min-height: 20rem;
+    padding: 2rem 1.75rem;
+  }
+
+  .stack-card-quote-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .stack-card-text {
+    font-size: 1.15rem;
+    margin-bottom: 2rem;
+  }
+}
+
+.reviews-cta-button:hover .reviews-cta-icon {
+  transform: rotate(12deg);
+}
+
+.button-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 1rem;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.reviews-cta-button:hover .button-overlay {
+  opacity: 1;
+}
+
+/* Animations */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-25%);
+  }
+}
+
+/* Mobile: stack the CTA vertically and let the button fit */
+@media (max-width: 640px) {
+  .reviews-cta-container {
+    display: block;
+    padding: 2rem 1.25rem;
+  }
+
+  .reviews-cta-title {
+    font-size: 1.5rem;
+  }
+
+  .reviews-cta-description {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .reviews-cta-button {
+    justify-content: center;
+    width: 100%;
+    max-width: 20rem;
+    padding: 0.9rem 1.5rem;
+    font-size: 1rem;
+  }
+}

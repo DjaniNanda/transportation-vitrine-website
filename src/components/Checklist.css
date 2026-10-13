@@ -1,0 +1,144 @@
+/* Service comparison table — ported from the Lovely Serenity reference
+   site's "cleaning checklist" section, retheme via CSS variables. */
+
+.checklist-section {
+  background-color: var(--color-primary);
+  color: white;
+  padding: 100px 5%;
+  width: 100%;
+}
+
+.checklist-title {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  text-align: center;
+  color: var(--color-accent-light);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.section-badge {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(52, 211, 153, 0.3);
+  border-radius: 2rem;
+  backdrop-filter: blur(10px);
+  margin: 0 auto 1.5rem;
+  color: var(--color-accent-light);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.section-badge .badge-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.checklist-subtitle {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 50px;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 1.05rem;
+}
+
+.checklist-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow-x: auto;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 20px;
+}
+
+.checklist-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.checklist-table th {
+  padding: 15px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.checklist-table td {
+  color: white;
+  padding: 15px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.task-column {
+  text-align: left;
+  width: 30%;
+}
+
+.service-column {
+  background-color: var(--color-accent);
+  color: #0d0d0d;
+  font-weight: bold;
+  padding: 15px 10px;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+.category-row td {
+  padding: 20px 15px;
+  font-weight: bold;
+  font-size: 1.15rem;
+  background-color: rgba(47, 174, 78, 0.12);
+  color: var(--color-accent-light) !important;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-align: left;
+}
+
+.task-row:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.task-name {
+  text-align: left;
+  font-weight: 500;
+}
+
+.check-icon {
+  color: var(--color-accent-light);
+  width: 20px;
+  height: 20px;
+}
+
+.x-icon {
+  color: rgba(255, 255, 255, 0.3);
+  width: 18px;
+  height: 18px;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+@media (max-width: 768px) {
+  .checklist-section {
+    padding: 70px 5%;
+  }
+
+  .checklist-title {
+    font-size: 2.2rem;
+  }
+
+  .checklist-table th,
+  .checklist-table td {
+    padding: 10px 8px;
+    font-size: 0.85rem;
+  }
+}

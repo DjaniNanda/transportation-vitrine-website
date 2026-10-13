@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Default theme tokens — these mirror siteConfig.theme and are overridden
+ * at runtime by src/theme.ts (applyTheme). They exist here as a static
+ * fallback so the page still looks correct before JS runs.
+ */
+:root {
+  --color-primary: #1C3E3A;
+  --color-primary-dark: #0f2623;
+  --color-primary-light: #2a5a54;
+  --color-primary-pale: #A8D8C3;
+  --color-secondary: #509779;
+  --color-accent: #10b981;
+  --color-accent-dark: #059669;
+  --color-accent-light: #34d399;
+  --color-accent-lighter: #6ee7b7;
+  --color-accent-pale: #a7f3d0;
+  --color-teal: #14b8a6;
+  --color-cyan: #06b6d4;
+  --color-mint: #7BC8A4;
+  --color-whatsapp: #25D366;
+  --color-success: #22c55e;
+}

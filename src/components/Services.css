@@ -1,0 +1,423 @@
+/* Services Section */
+.services {
+  background: linear-gradient(135deg,var(--color-primary) 0%, var(--color-primary-light) 100%);
+  position: relative;
+  min-height: 100vh;
+  padding: 5rem 0;
+  overflow: hidden;
+}
+
+/* Animated Background */
+.services-background {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.floating-shape {
+  position: absolute;
+  border-radius: 50%;
+  blur: 60px;
+  animation: float 8s ease-in-out infinite;
+}
+
+.shape-1 {
+  width: 20rem;
+  height: 20rem;
+  background: radial-gradient(circle, #10b98150 0%, #06b6d420 70%);
+  top: -10rem;
+  right: -10rem;
+  animation-delay: 0s;
+}
+
+.shape-2 {
+  width: 24rem;
+  height: 24rem;
+  background: radial-gradient(circle, #3b82f650 0%, #8b5cf620 70%);
+  bottom: -12rem;
+  left: -12rem;
+  animation-delay: -2s;
+}
+
+.shape-3 {
+  width: 18rem;
+  height: 18rem;
+  background: radial-gradient(circle, var(--color-accent-dark) 30 0%, #06b6d420 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation-delay: -4s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateY(-20px) rotate(180deg);
+    opacity: 0.6;
+  }
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  position: relative;
+  z-index: 10;
+}
+
+/* Header Styles */
+.services-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.services-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #10b98120 0%, #06b6d420 100%);
+  border: 1px solid #10b98150;
+  border-radius: 2rem;
+  backdrop-filter: blur(10px);
+  margin-bottom: 1.5rem;
+  color: var(--color-accent);
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.25);
+}
+
+.badge-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.services-subtitle {
+  font-size: clamp(0.9rem, 1.9vw, 1rem);
+  color: #cbd5e1;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+}
+
+.title-underline {
+  width: 6rem;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-cyan) 100%);
+  border-radius: 2px;
+  margin: 0 auto;
+}
+
+/* Services Grid */
+/* Flex-wrap (instead of a fixed grid) so ANY number of cards works: extra
+   cards wrap onto new rows and an incomplete last row is centered.
+   --service-cols / --service-cols-tablet are set from siteConfig in Services.tsx. */
+.services-grid {
+  --service-gap: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--service-gap);
+  margin-bottom: 4rem;
+}
+
+.services-grid > .service-card {
+  flex: 0 0 calc((100% - (var(--service-cols, 3) - 1) * var(--service-gap)) / var(--service-cols, 3));
+  min-width: 0;
+}
+
+/* A lone card shouldn't stretch across the whole page */
+.services-grid[data-cols="1"] > .service-card {
+  max-width: 42rem;
+}
+
+@media (max-width: 1024px) {
+  .services-grid > .service-card {
+    flex-basis: calc((100% - (var(--service-cols-tablet, 2) - 1) * var(--service-gap)) / var(--service-cols-tablet, 2));
+  }
+}
+
+/* Service Card */
+.service-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.service-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(16, 185, 129, 0.3);
+  box-shadow: 0 25px 50px rgba(16, 185, 129, 0.15);
+}
+
+.card-background {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 1;
+  transition: all 0.4s ease;
+  border-radius: 1.5rem;
+  filter: brightness(0.7) contrast(1.2);
+}
+
+.service-card:hover .card-background {
+  opacity: 0.25;
+  transform: scale(1.05);
+  filter: brightness(0.8) contrast(1.3);
+}
+
+/* Enhanced overlay for better text readability */
+.card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg, 
+    rgba(28, 62, 58, 0.85) 0%, 
+    rgba(42, 90, 84, 0.75) 50%,
+    rgba(16, 185, 129, 0.1) 100%
+  );
+  opacity: 0.5;
+  transition: opacity 0.4s ease;
+  border-radius: 1.5rem;
+}
+
+.service-card:hover .card-overlay {
+  opacity: 0.8;
+}
+
+.service-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Service Header */
+.service-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.service-icon {
+  width: 4rem;
+  height: 4rem;
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-cyan) 100%);
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  transition: all 0.4s ease;
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+}
+
+.service-card:hover .service-icon {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 12px 35px rgba(16, 185, 129, 0.4);
+}
+
+.service-icon svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.service-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: rgba(16, 185, 129, 0.2);
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.75rem;
+  color: var(--color-accent);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.star-icon {
+  width: 1rem;
+  height: 1rem;
+  fill: currentColor;
+}
+
+/* Service Content */
+.service-title {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  transition: color 0.3s ease;
+}
+
+.service-card:hover .service-title {
+  color: var(--color-accent);
+}
+
+.service-description {
+  color: #cbd5e1;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+/* Features List */
+.service-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem 0;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  background: rgba(16, 185, 129, 0.8);
+  border-radius: 0.75rem;
+  color: #e2e8f0;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.feature-item:hover {
+  background: rgba(16, 185, 129, 0.2);
+  transform: translateX(5px);
+}
+
+.check-icon {
+  width: 1rem;
+  height: 1rem;
+  color: var(--color-accent-light);
+  flex-shrink: 0;
+}
+
+/* Card Glow Effect */
+.card-glow {
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-cyan) 100%);
+  border-radius: 1.5rem;
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.4s ease;
+  filter: blur(20px);
+}
+
+.service-card:hover .card-glow {
+  opacity: 0.3;
+}
+
+/* Call to Action */
+.services-cta {
+  text-align: center;
+  margin-top: 4rem;
+}
+
+.cta-content {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 2rem;
+  padding: 3rem 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.cta-content h3 {
+  color: white;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.cta-content p {
+  color: #cbd5e1;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-button {
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-cyan) 100%);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+}
+
+.cta-button:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 15px 35px rgba(16, 185, 129, 0.4);
+}
+
+/* Animation Classes */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .services {
+    padding: 3rem 0;
+  }
+  
+  .services-grid {
+    --service-gap: 1.5rem;
+  }
+
+  .services-grid > .service-card {
+    flex-basis: 100%;
+    max-width: none;
+  }
+  
+  .service-card {
+    padding: 1.5rem;
+  }
+  
+  .service-footer {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+  
+  .service-button {
+    justify-content: center;
+  }
+  
+  .cta-content {
+    padding: 2rem 1.5rem;
+  }
+  
+  .floating-shape {
+    display: none;
+  }
+}
