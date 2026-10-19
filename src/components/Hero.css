@@ -227,7 +227,7 @@
   flex-wrap: nowrap; /* both buttons always side by side */
   justify-content: flex-start;
   gap: 1rem;
-  margin-bottom: 2.3rem;
+  margin-bottom: 2.4rem;
 }
 
 /* ---------- Tracking card ---------- */
@@ -446,24 +446,23 @@
 }
 
 /* ---------- Tablet and phone ----------
-   The map gets its own band at the top (the viewBox is auto-fitted to the
-   origin + destinations in Hero.tsx) and the text starts underneath it,
-   instead of being squeezed on top of the map. */
+   The text sits ON TOP of the map. The map is pinned near the top and its
+   view is auto-fitted to the origin + destinations in Hero.tsx, so the point
+   of origin is always visible. The text block is anchored to the bottom and
+   rises over the lower part of the map. */
 @media (max-width: 768px) {
   .hero {
-    --map-h: clamp(15rem, 52vw, 24rem);
     margin-top: 23px;
+    /* Hero is only as tall as its content, so the text stays over the map
+       instead of being pushed below it */
     min-height: 0;
   }
 
   .hero-map {
-    top: 4rem;
+    top: 3.5rem;
     left: 0;
     right: 0;
-    height: var(--map-h);
-    /* fade the bottom of the map into the page */
-    -webkit-mask-image: linear-gradient(180deg, #000 72%, transparent 100%);
-    mask-image: linear-gradient(180deg, #000 72%, transparent 100%);
+    height: clamp(14rem, 55vw, 26rem);
   }
 
   .route-map {
@@ -490,14 +489,28 @@
     stroke-width: 3;
   }
 
+  /* Darkens only the lower part, behind the text; the top stays clear */
   .hero-scrim {
-    background: linear-gradient(0deg, #060f09 0%, rgba(6, 15, 9, 0) 18%);
+    background: linear-gradient(
+      0deg,
+      #060f09 0%,
+      rgba(6, 15, 9, 0.8) 28%,
+      rgba(6, 15, 9, 0.3) 48%,
+      rgba(6, 15, 9, 0) 64%
+    );
   }
 
   .hero-inner {
     margin-left: 0;
-    padding: calc(var(--map-h) + 3.5rem) 1.25rem 2.5rem;
+    /* The top padding leaves the origin dot clear above the title; the rest of
+       the text then overlaps the map. Raise/lower it to move the text. */
+    padding: 8rem 1.25rem 2.5rem;
     gap: 1.75rem;
+  }
+
+  .hero-title,
+  .hero-description {
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55);
   }
 
   .hero-title {
@@ -577,13 +590,6 @@
 
   .btn-icon {
     display: none;
-  }
-}
-
-/* Short landscape phones */
-@media (max-height: 520px) and (orientation: landscape) and (max-width: 768px) {
-  .hero {
-    --map-h: 12rem;
   }
 }
 
