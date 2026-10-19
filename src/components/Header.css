@@ -1,9 +1,27 @@
 /* Navbar — ported from the Lovely Serenity reference site, retheme via
    CSS variables (var(--color-primary) / var(--color-accent)) and with
-   the CTA buttons removed. */
+   the CTA buttons removed.
+
+   Responsive revision:
+   - one --nav-height variable drives the bar, the mobile panel and the
+     page offset, so they can't drift apart
+   - spacing scales fluidly with clamp() instead of fixed 63px / 200px gaps
+   - the menu collapses at 1100px, before the links start to crowd
+   - touch-sized tap targets, safe-area support, focus styles, reduced motion
+*/
+
+:root {
+  --nav-height: 77px;
+  --nav-collapse-bp: 1100px; /* documentation only: media queries can't read variables */
+}
 
 .navbar-wrapper {
   width: 100%;
+}
+
+/* Keep anchored sections from hiding under the fixed bar */
+html {
+  scroll-padding-top: var(--nav-height);
 }
 
 .navbar {
@@ -13,32 +31,44 @@
   left: 0;
   right: 0;
   z-index: 1000;
-  height: 77px;
+  height: var(--nav-height);
   padding: 0;
 }
 
 .navbar-inner {
   height: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 24px;
+  gap: 16px;
+  padding: 0 clamp(12px, 2vw, 24px);
 }
 
 .navbar-brand {
   display: flex;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .navbar-brand img {
-  margin-left: 25px;
-  width: 75px;
-  height: 75px;
+  margin-left: clamp(0px, 1.5vw, 25px);
+  width: clamp(52px, 6vw, 75px);
+  height: clamp(52px, 6vw, 75px);
+  max-height: calc(var(--nav-height) - 2px);
   object-fit: cover;
   padding: 4px;
   border-radius: 50%;
   border: 2px solid #fff;
   background: #fff;
+}
+
+/* Desktop: the collapse wrapper is just a row */
+.navbar-collapse {
+  display: flex;
+  align-items: center;
+  min-width: 0;
 }
 
 .navbar-nav {
@@ -54,7 +84,7 @@
 }
 
 .navbar-nav .nav-link {
-  margin-right: 63px;
+  margin-right: clamp(20px, 3.5vw, 63px);
   color: var(--color-accent-light);
   font-size: 13px;
   font-weight: 500;
@@ -62,6 +92,7 @@
   height: 44px;
   display: flex;
   align-items: center;
+  white-space: nowrap;
   transition: color 0.3s;
   cursor: pointer;
 }
@@ -74,20 +105,31 @@
   color: #fff;
 }
 
+/* Keyboard focus */
+.navbar-nav .nav-link:focus-visible,
+.call-button:focus-visible,
+.floating-call-button:focus-visible,
+.navbar-toggler:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
 /* "Call Us" button — the one CTA kept in the navbar */
 .nav-item-call {
-  margin-left:200px;
+  margin-left: clamp(24px, 6vw, 200px);
 }
 
 .call-button {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   color: #0d0d0d;
   background-color: var(--color-accent);
   padding: 0 23px;
   height: 46px;
-  width: 120px;
+  min-width: 120px;
   border-radius: 30px;
   text-decoration: none;
   font-size: 13px;
@@ -143,30 +185,42 @@
 /* Toggler button (mobile hamburger) */
 .navbar-toggler {
   display: none;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
   border: none;
   background: transparent;
   color: #fff;
   cursor: pointer;
   padding: 8px;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.navbar-toggler:focus {
-  outline: none;
+/* ---------- Tighter desktop: shrink type/gaps before collapsing ---------- */
+@media (max-width: 1280px) {
+  .nav-item-call {
+    margin-left: clamp(16px, 3vw, 48px);
+  }
 }
 
-/* Medium screens and below: collapse into a dropdown panel */
-@media (max-width: 992px) {
+/* ---------- Tablet and below: collapse into a dropdown panel ---------- */
+@media (max-width: 1100px) {
   .navbar-toggler {
     display: flex;
-    align-items: center;
   }
 
   .navbar-collapse {
     display: none;
     position: fixed;
-    top: 68px;
+    top: var(--nav-height);
     left: 0;
     right: 0;
+    /* scroll inside the panel if the menu is taller than the screen */
+    max-height: calc(100vh - var(--nav-height));
+    max-height: calc(100dvh - var(--nav-height));
+    overflow-y: auto;
+    overscroll-behavior: contain;
     background-color: var(--color-primary);
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
   }
@@ -183,40 +237,14 @@
   .navbar-nav .nav-link {
     margin-right: 0;
     width: 100%;
-    padding: 15px 5%;
+    min-height: 48px;
+    padding: 12px 5%;
     height: auto;
+    font-size: 15px;
+    white-space: normal;
   }
 
-  .nav-item-call {
-    margin: 10px 5% 15px;
-  }
-
-  .call-button {
-    width: 100%;
-    justify-content: center;
-    height: 50px;
-  }
-}
-
-@media (max-width: 576px) {
-  .navbar {
-    height: 60px;
-  }
-
-  .navbar-collapse {
-    top: 60px;
-  }
-
-  .navbar-brand img {
-    width: 60px;
-    height: 60px;
-  }
-}
-
-/* Below the point where nav collapses into the hamburger menu (phones
-   and tablets), swap the in-menu "Call" link for a floating bottom
-   button (matches the reference site's mobile pattern). */
-@media (max-width: 992px) {
+  /* Swap the in-menu "Call" link for the floating bottom button */
   .nav-item-call {
     display: none;
   }
@@ -224,9 +252,69 @@
   .floating-call-wrapper {
     display: flex;
     position: fixed;
-    bottom: 20px;
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
+  }
+}
+
+/* ---------- Phones ---------- */
+@media (max-width: 576px) {
+  :root {
+    --nav-height: 60px;
+  }
+
+  .navbar-inner {
+    padding: 0 12px;
+  }
+
+  .navbar-brand img {
+    width: 52px;
+    height: 52px;
+    margin-left: 0;
+  }
+
+  .floating-call-button {
+    height: 52px;
+    padding: 0 24px;
+    font-size: 16px;
+  }
+}
+
+/* ---------- Short landscape phones: keep the CTA out of the way ---------- */
+@media (max-width: 1100px) and (max-height: 480px) {
+  .floating-call-wrapper {
+    left: auto;
+    right: calc(16px + env(safe-area-inset-right, 0px));
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    transform: none;
+  }
+
+  .floating-call-button {
+    height: 46px;
+    font-size: 15px;
+  }
+}
+
+/* ---------- Touch devices: don't leave hover colors "stuck" ---------- */
+@media (hover: none) {
+  .navbar-nav .nav-link:hover {
+    color: var(--color-accent-light);
+  }
+
+  .call-button:hover,
+  .floating-call-button:hover {
+    color: #0d0d0d;
+    background-color: var(--color-accent);
+  }
+}
+
+/* ---------- Respect reduced-motion preferences ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .navbar-nav .nav-link,
+  .call-button,
+  .floating-call-button {
+    transition: none;
   }
 }
