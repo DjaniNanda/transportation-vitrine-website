@@ -8,8 +8,10 @@ import './Hero.css';
  *  ROUTE MAP DATA
  *  Equirectangular projection: 2 SVG units per degree.
  *  x = (lon + 180) * 2      y = (80 - lat) * 2
- *  The land dots come from ../data/worldDots (generated from Natural Earth).
- *  The visible window (viewBox) is lon -170..155, lat 72..-56.
+ *  Coordinates are [longitude, latitude].
+ *  The land dots come from ../config/worldDots (generated from Natural Earth).
+ *  Desktop shows the whole map (lon -170..155, lat 72..-56).
+ *  Phones zoom automatically onto the origin + destinations (see MOBILE_VIEWBOX).
  * ------------------------------------------------------------------------- */
 type LonLat = [number, number];
 
@@ -20,7 +22,7 @@ const ORIGIN = { name: 'Ontario', coord: [-85, 50] as LonLat };
 const DESTINATIONS: { name: string; coord: LonLat }[] = [
   { name: 'Douala', coord: [9.7, 4.05] },
   { name: 'Rotterdam', coord: [4.5, 51.9] },
-  { name: 'Lagos', coord: [98, 16.5] },
+  { name: 'Lagos', coord: [3.4, 6.5] },
   { name: 'Mombasa', coord: [39.7, -4] },
   { name: 'Dubai', coord: [55.3, 25.3] },
 ];
@@ -38,11 +40,58 @@ const ROUTES = DESTINATIONS.map((dest, i) => {
     name: dest.name,
     d: `M${origin.x} ${origin.y}Q${cx} ${cy} ${to.x} ${to.y}`,
     to,
+    cx,
+    cy,
     delay,
     draw,
     arrive: delay + draw,
   };
 });
+
+/* ---------------------------------------------------------------------------
+ *  VIEWBOXES
+ *  The phone view is computed from the origin, the destinations and the top of
+ *  every arc, so changing ORIGIN / DESTINATIONS never pushes a point off-screen.
+ * ------------------------------------------------------------------------- */
+const DESKTOP_VIEWBOX = '20 16 650 256';
+
+const MOBILE_VIEWBOX = (() => {
+  const xs: number[] = [origin.x];
+  const ys: number[] = [origin.y];
+  ROUTES.forEach((r) => {
+    for (let t = 0; t <= 1; t += 0.1) {
+      const u = 1 - t;
+      xs.push(u * u * origin.x + 2 * u * t * r.cx + t * t * r.to.x);
+      ys.push(u * u * origin.y + 2 * u * t * r.cy + t * t * r.to.y);
+    }
+  });
+  const padX = 30;
+  const padY = 26;
+  const minX = Math.min(...xs) - padX;
+  const maxX = Math.max(...xs) + padX;
+  const minY = Math.min(...ys) - padY;
+  const maxY = Math.max(...ys) + padY;
+  return `${minX.toFixed(1)} ${minY.toFixed(1)} ${(maxX - minX).toFixed(1)} ${(maxY - minY).toFixed(1)}`;
+})();
+
+const MOBILE_QUERY = '(max-width: 768px)';
+
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== 'undefined' && typeof window.matchMedia === 'function' && window.matchMedia(MOBILE_QUERY).matches
+  );
+
+  useEffect(() => {
+    if (typeof window.matchMedia !== 'function') return;
+    const mq = window.matchMedia(MOBILE_QUERY);
+    const onChange = () => setIsMobile(mq.matches);
+    onChange();
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, []);
+
+  return isMobile;
+};
 
 /* ---------------------------------------------------------------------------
  *  ANIMATION CYCLE
@@ -65,6 +114,7 @@ const Hero: React.FC = () => {
   const [reduceMotion] = useState(prefersReducedMotion);
   // With reduced motion we show the finished state and never animate.
   const [phase, setPhase] = useState(reduceMotion ? 2 : 0);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     if (reduceMotion) return;
@@ -96,11 +146,19 @@ const Hero: React.FC = () => {
     .filter(Boolean)
     .join(' ');
 
+  // Markers are drawn a bit larger on phones, where the map is scaled down
+  const k = isMobile ? 1.5 : 1;
+
   return (
     <section id="accueil" className="hero" aria-label={`${business.name} - ${business.tagline}`}>
       {/* Decorative animated map */}
       <div className="hero-map" aria-hidden="true">
-        <svg className={mapClass} viewBox="20 16 650 256" preserveAspectRatio="xMidYMid meet" focusable="false">
+        <svg
+          className={mapClass}
+          viewBox={isMobile ? MOBILE_VIEWBOX : DESKTOP_VIEWBOX}
+          preserveAspectRatio="xMidYMid meet"
+          focusable="false"
+        >
           <path className="map-dots" d={WORLD_DOTS_PATH} />
 
           <g className="map-routes">
@@ -115,15 +173,15 @@ const Hero: React.FC = () => {
                   <path className="route-ghost" d={r.d} />
                   <path className="route-trail" d={r.d} pathLength={1} />
                   <path className="route-head" d={r.d} pathLength={1} />
-                  <circle className="dest-ring" cx={r.to.x} cy={r.to.y} r="2.2" />
-                  <circle className="dest-core" cx={r.to.x} cy={r.to.y} r="1.7" />
+                  <circle className="dest-ring" cx={r.to.x} cy={r.to.y} r={2.2 * k} />
+                  <circle className="dest-core" cx={r.to.x} cy={r.to.y} r={1.7 * k} />
                 </g>
               );
             })}
           </g>
 
-          <circle className="origin-ring" cx={origin.x} cy={origin.y} r="2.6" />
-          <circle className="origin-core" cx={origin.x} cy={origin.y} r="1.9" />
+          <circle className="origin-ring" cx={origin.x} cy={origin.y} r={2.6 * k} />
+          <circle className="origin-core" cx={origin.x} cy={origin.y} r={1.9 * k} />
         </svg>
       </div>
       <div className="hero-scrim" aria-hidden="true" />

@@ -1,6 +1,7 @@
 /* ==========================================================================
    Hero — dark route map
-   Map on top, headline bottom-left, tracking card bottom-right.
+   Desktop: map behind, headline bottom-left, tracking card bottom-right.
+   Phone:   map on top, headline / buttons / tracking card stacked below it.
    ========================================================================== */
 
 .hero {
@@ -33,7 +34,7 @@
   height: 100%;
 }
 
-/* Real-world dot matrix: brighter and finer so the continents read clearly */
+/* Real-world dot matrix */
 .map-dots {
   fill: none;
   stroke: rgba(143, 221, 163, 0.55);
@@ -444,47 +445,81 @@
   }
 }
 
-/* Tablet and phone */
+/* ---------- Tablet and phone ----------
+   The map gets its own band at the top (the viewBox is auto-fitted to the
+   origin + destinations in Hero.tsx) and the text starts underneath it,
+   instead of being squeezed on top of the map. */
 @media (max-width: 768px) {
   .hero {
+    --map-h: clamp(15rem, 52vw, 24rem);
     margin-top: 23px;
+    min-height: 0;
   }
 
-  /* Map sits behind the text, enlarged and centred on the Atlantic routes
-     (New York, Caribbean, Europe, Africa, Gulf) */
   .hero-map {
-    top: 64px;
+    top: 4rem;
     left: 0;
-    height: 360px;
-    overflow: hidden;
+    right: 0;
+    height: var(--map-h);
+    /* fade the bottom of the map into the page */
+    -webkit-mask-image: linear-gradient(180deg, #000 72%, transparent 100%);
+    mask-image: linear-gradient(180deg, #000 72%, transparent 100%);
   }
 
   .route-map {
-    width: 220%;
-    max-width: none;
-    height: auto;
-    margin-left: -58%;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+  }
+
+  /* The map is scaled down on phones, so strengthen the strokes a little */
+  .map-dots {
+    stroke: rgba(143, 221, 163, 0.6);
+    stroke-width: 2.3;
+  }
+
+  .route-trail {
+    stroke-width: 1.7;
+  }
+
+  .route-ghost {
+    stroke-width: 1.1;
+  }
+
+  .route-head {
+    stroke-width: 3;
+  }
+
+  .hero-scrim {
+    background: linear-gradient(0deg, #060f09 0%, rgba(6, 15, 9, 0) 18%);
   }
 
   .hero-inner {
-    padding: 0 1rem 2.5rem;
-    gap: 1.5rem;
+    margin-left: 0;
+    padding: calc(var(--map-h) + 3.5rem) 1.25rem 2.5rem;
+    gap: 1.75rem;
   }
 
   .hero-title {
+    margin: 0 0 0.75rem;
+    gap: 0.35rem;
     font-size: clamp(2rem, 7vw, 3.4rem);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
   }
 
   /* Keeps "Translogistics" on one line */
   .title-company {
-    margin-top: 1rem;
-    margin-bottom: 0.6rem;
+    margin-top: 0;
+    margin-bottom: 0.4rem;
     font-size: clamp(2.4rem, 11.5vw, 5rem);
+    line-height: 1.05;
   }
 
   .hero-description {
-    margin-top: 1rem;
-    margin-bottom: 1.5rem;
+    margin-top: 0.75rem;
+    margin-bottom: 1.75rem;
+    line-height: 1.65;
   }
 
   .hero-buttons {
@@ -514,7 +549,7 @@
     min-width: 0;
     width: auto;
     gap: 0.4rem;
-    padding: 0.85rem 0.6rem;
+    padding: 0.9rem 0.6rem;
     font-size: 0.9rem;
   }
 
@@ -529,7 +564,7 @@
   }
 
   .track-card {
-    padding: 0.9rem 1rem;
+    padding: 1rem 1.1rem;
   }
 }
 
@@ -537,7 +572,7 @@
 @media (max-width: 360px) {
   .btn {
     font-size: 0.82rem;
-    padding: 0.8rem 0.5rem;
+    padding: 0.85rem 0.5rem;
   }
 
   .btn-icon {
@@ -545,11 +580,10 @@
   }
 }
 
-/* Short landscape phones: don't force a full-height hero */
-@media (max-height: 520px) and (orientation: landscape) {
+/* Short landscape phones */
+@media (max-height: 520px) and (orientation: landscape) and (max-width: 768px) {
   .hero {
-    min-height: 0;
-    padding-top: 4rem;
+    --map-h: 12rem;
   }
 }
 
