@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MessageCircle, Star, ArrowRight, CheckCircle } from 'lucide-react';
+import { MessageCircle, Star, ArrowRight, CheckCircle, ChevronDown } from 'lucide-react';
 import { siteConfig } from '../config/siteConfig';
 import './Hero.css';
 
@@ -7,12 +7,13 @@ const Hero: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => setIsVisible(true), 100);
+    const timer = setTimeout(() => setIsVisible(true), 100);
+    return () => clearTimeout(timer);
   }, []);
 
   const openWhatsApp = () => {
     const url = `https://wa.me/${siteConfig.contact.whatsappNumber}?text=${encodeURIComponent(siteConfig.contact.whatsappMessage)}`;
-    window.open(url, '_blank');
+    window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   const scrollToServices = () => {
@@ -110,6 +111,16 @@ const Hero: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Scroll cue: signals that the page continues below */}
+      <button
+        type="button"
+        className="scroll-cue"
+        onClick={scrollToServices}
+        aria-label="Découvrir nos services"
+      >
+        <ChevronDown aria-hidden="true" />
+      </button>
     </section>
   );
 };

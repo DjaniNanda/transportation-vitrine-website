@@ -1,11 +1,26 @@
-/* Hero Section — single centered column (video removed) */
+/* Hero Section — single centered column (video removed)
+
+   Changes from the previous version:
+   - the hero no longer fills the whole screen: a strip of the next section
+     stays visible (--hero-peek), so the page reads as "keep scrolling"
+   - a scroll cue button sits at the bottom of the hero
+   - the overlay gradient was invalid (one color stop) and is fixed
+   - the fixed navbar is accounted for with padding instead of a magic margin
+*/
+
 .hero {
+  --hero-peek: 90px; /* how much of the next section shows on first load */
+
   position: relative;
-  min-height: 100vh;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   overflow: hidden;
-  margin-top: 30px;
+  margin-top: 0;
+  padding-top: var(--nav-height, 77px);
+  min-height: calc(100vh - var(--hero-peek));
+  min-height: calc(100svh - var(--hero-peek));
+  max-height: 860px; /* on tall screens, still leave room for what follows */
 }
 
 /* Enhanced Background */
@@ -25,17 +40,17 @@
   object-position: center;
 }
 
-/* Multiple overlay system */
+/* Overlay: tint across the image, plus a slightly darker base so the
+   scroll cue stays readable. */
 .hero-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    135deg,
-    rgba(15, 42, 23, 0.4) 30%
-  );
+  background:
+    linear-gradient(to top, rgba(15, 42, 23, 0.55) 0%, rgba(15, 42, 23, 0) 30%),
+    linear-gradient(135deg, rgba(15, 42, 23, 0.5) 0%, rgba(15, 42, 23, 0.35) 100%);
   z-index: 1;
 }
 
@@ -46,7 +61,7 @@
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 2rem 1rem 5rem; /* extra bottom space for the scroll cue */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -73,7 +88,7 @@
   border-radius: 2rem;
   font-size: 1rem;
   font-weight: 600;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   backdrop-filter: blur(20px);
   box-shadow: 0 8px 32px rgba(16, 185, 129, 0.1);
   transition: all 0.3s ease;
@@ -116,7 +131,7 @@
   font-size: clamp(2.2rem, 5vw, 3.5rem);
   font-weight: 500;
   line-height: 1.15;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   letter-spacing: -0.02em;
 }
 
@@ -150,7 +165,7 @@
   font-size: clamp(1.1rem, 1.7vw, 1.3rem);
   font-weight: 400;
   line-height: 1.7;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
   color: rgba(255, 255, 255, 0.85);
   max-width: 650px;
 }
@@ -167,7 +182,7 @@
   justify-content: center;
   gap: 1.5rem;
   flex-wrap: wrap;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
 }
 
 .btn {
@@ -237,6 +252,12 @@
   left: 100%;
 }
 
+.btn:focus-visible,
+.scroll-cue:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
 /* Trust indicators */
 .trust-indicators {
   display: flex;
@@ -260,29 +281,60 @@
   color: var(--color-accent);
 }
 
+/* Scroll cue — tells visitors the page continues below */
+.scroll-cue {
+  position: absolute;
+  left: 50%;
+  bottom: 1.25rem;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.scroll-cue:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+.scroll-cue svg {
+  width: 20px;
+  height: 20px;
+  animation: cueBounce 2s ease-in-out infinite;
+}
+
+@keyframes cueBounce {
+  0%, 100% { transform: translateY(-2px); }
+  50% { transform: translateY(3px); }
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .hero-content {
-    padding: 0 1.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
   }
 }
 
 @media (max-width: 768px) {
   .hero {
-    min-height: 100vh;
-     margin-top: 23px;
+    --hero-peek: 70px;
+    max-height: none;
   }
 
   .hero-content {
-    padding: 2rem 1rem;
-  }
-
-  .hero-buttons {
-    justify-content: center;
-  }
-
-  .trust-indicators {
-    justify-content: center;
+    padding: 1.5rem 1rem 5rem;
   }
 
   .hero-description {
@@ -291,9 +343,12 @@
 }
 
 @media (max-width: 480px) {
-  
+  .hero {
+    --hero-peek: 56px;
+  }
+
   .hero-content {
-    padding: 1rem 0.5rem;
+    padding: 1rem 0.75rem 4.5rem;
   }
 
   .hero-badge {
@@ -306,12 +361,13 @@
 
   .hero-description {
     font-size: clamp(1rem, 2.1vw, 1.3rem);
-    line-height: 2;
+    line-height: 1.8;
   }
 
   .hero-buttons {
     flex-direction: column;
     align-items: center;
+    gap: 1rem;
   }
 
   .btn {
@@ -323,7 +379,22 @@
   .trust-indicators {
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    gap: 0.75rem;
+  }
+}
+
+/* Short landscape screens: don't force the hero taller than the viewport */
+@media (max-height: 520px) {
+  .hero {
+    min-height: 0;
+  }
+
+  .scroll-cue {
+    display: none;
+  }
+
+  .hero-content {
+    padding-bottom: 2rem;
   }
 }
 
@@ -344,5 +415,24 @@
       rgba(30, 41, 59, 0.7) 40%,
       rgba(6, 78, 59, 0.8) 100%
     );
+  }
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .hero-content {
+    transition: none;
+  }
+
+  .title-gradient,
+  .badge-icon-ping,
+  .scroll-cue svg {
+    animation: none;
+  }
+
+  .btn,
+  .btn-arrow,
+  .btn-shine {
+    transition: none;
   }
 }
