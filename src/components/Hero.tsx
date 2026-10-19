@@ -179,13 +179,6 @@ const Hero: React.FC = () => {
 
       <div className="hero-inner">
         <div className="hero-copy">
-          <div className="hero-badge">
-            <span className="badge-dot" aria-hidden="true">
-              <span className="badge-dot-ping" />
-              <span className="badge-dot-core" />
-            </span>
-            <span>{hero.badge}</span>
-          </div>
 
           <h1 className="hero-title">
             <span className="title-company">{hero.titleLine1}</span>
@@ -214,15 +207,7 @@ const Hero: React.FC = () => {
               <ArrowRight className="btn-arrow" aria-hidden="true" />
             </button>
           </div>
-
-          <div className="trust-indicators">
-            {hero.trustBadges.map((badge) => (
-              <div className="trust-item" key={badge}>
-                <CheckCircle className="trust-icon" aria-hidden="true" />
-                <span>{badge}</span>
-              </div>
-            ))}
-          </div>
+          
         </div>
 
         {/* Floating shipment-tracking card (decorative sample) */}
