@@ -20,7 +20,7 @@ const ORIGIN = { name: 'Ontario', coord: [-85, 50] as LonLat };
 const DESTINATIONS: { name: string; coord: LonLat }[] = [
   { name: 'Douala', coord: [9.7, 4.05] },
   { name: 'Rotterdam', coord: [4.5, 51.9] },
-  { name: 'Lagos', coord: [3.4, 6.5] },
+  { name: 'Lagos', coord: [98, 16.5] },
   { name: 'Mombasa', coord: [39.7, -4] },
   { name: 'Dubai', coord: [55.3, 25.3] },
 ];
