@@ -117,8 +117,8 @@ export const siteConfig = {
     titleLine2: 'Moving Goods.',
     titleLine3: 'Connecting Markets.',
     description:
-      "D&TE Translogistics and Services Inc. provides professional moving, transportation, logistics, and international export services. Our operations are organized into three primary service areas, delivering safe, efficient, and dependable service tailored to each customer's needs.",
-    descriptionHighlight: 'moving, transportation, logistics, and international export services',
+  'Professional moving, tire export and vehicle export services, delivered safely and on time.',
+descriptionHighlight: 'moving, tire export and vehicle export',
     backgroundImage: '/hero.jpg', // TODO: add image to /public
     trustBadges: ['Trusted Logistics Partner', 'International Reach', 'Reliable & Efficient'],
     primaryCta: 'Request a Quote',
