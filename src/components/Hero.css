@@ -180,6 +180,46 @@
   text-align: left;
 }
 
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 2rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  background: rgba(47, 174, 78, 0.12);
+  border: 1px solid rgba(91, 199, 118, 0.3);
+  backdrop-filter: blur(12px);
+}
+
+.badge-dot {
+  position: relative;
+  width: 0.6rem;
+  height: 0.6rem;
+}
+
+.badge-dot-core,
+.badge-dot-ping {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--color-accent, #2fae4e);
+}
+
+.badge-dot-ping {
+  animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  opacity: 0.6;
+}
+
+@keyframes ping {
+  75%, 100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
 .hero-title {
   display: flex;
   flex-direction: column;
@@ -225,6 +265,28 @@
   gap: 1rem;
   flex-wrap: wrap;
   margin-bottom: 2rem;
+}
+
+.trust-indicators {
+  display: flex;
+  justify-content: flex-start;
+  gap: 0.75rem 1.75rem;
+  flex-wrap: wrap;
+}
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.trust-icon {
+  width: 1rem;
+  height: 1rem;
+  color: var(--color-accent, #2fae4e);
 }
 
 /* ---------- Tracking card ---------- */
@@ -431,24 +493,26 @@
 @media (max-width: 768px) {
   .hero {
     margin-top: 23px;
+    justify-content: flex-start;
   }
 
-  /* Map stays behind the text, enlarged and centred on the Atlantic routes */
   .hero-map {
-    top: 64px;
-    height: 360px;
-    overflow: hidden;
-  }
-
-  .route-map {
-    width: 160%;
-    max-width: none;
+    top: 56px;
     height: auto;
-    margin-left: -30%;
+    aspect-ratio: 7 / 3;
   }
 
+  /* Reserve room for the map above the text (map height = 3/7 of width) */
   .hero-inner {
-    padding: 0 1rem 2.5rem;
+    padding: calc(56px + 43vw + 1rem) 1rem 2.5rem;
+  }
+
+  .hero-scrim {
+    background: linear-gradient(
+      0deg,
+      rgba(6, 15, 9, 0) 0%,
+      rgba(6, 15, 9, 0) 100%
+    );
   }
 
   .track-card {
@@ -457,6 +521,10 @@
 }
 
 @media (max-width: 480px) {
+  .hero-badge {
+    font-size: 0.85rem;
+  }
+
   .hero-title {
     font-size: clamp(2.2rem, 10.5vw, 2.8rem);
   }
@@ -470,6 +538,11 @@
     width: 100%;
     justify-content: center;
   }
+
+  .trust-indicators {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
 }
 
 /* ---------- Reduced motion: show the finished state, no movement ---------- */
@@ -482,7 +555,8 @@
 
   .route-head,
   .dest-ring,
-  .origin-ring {
+  .origin-ring,
+  .badge-dot-ping {
     animation: none !important;
     opacity: 0;
   }
