@@ -48,14 +48,6 @@ const Hero: React.FC = () => {
 
       <div className="container">
         <div className={`hero-content ${isVisible ? 'animate-in' : ''}`}>
-          {/* Enhanced badge */}
-          <div className="hero-badge">
-            <div className="badge-icon-wrapper">
-              <Star className="badge-icon" aria-hidden="true" />
-              <Star className="badge-icon badge-icon-ping" aria-hidden="true" />
-            </div>
-            <span>{hero.badge}</span>
-          </div>
 
           {/* Enhanced title with gradient text */}
           <h1 className="hero-title">
