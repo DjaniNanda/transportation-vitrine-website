@@ -78,28 +78,6 @@ const Hero: React.FC = () => {
             ))}
           </p>
 
-          {/* Enhanced buttons */}
-          <div className="hero-buttons">
-            <button
-              onClick={openWhatsApp}
-              className="btn btn-whatsapp"
-              aria-label={hero.primaryCta}
-            >
-              <MessageCircle aria-hidden="true" />
-              <span>{hero.primaryCta}</span>
-              <ArrowRight className="btn-arrow" aria-hidden="true" />
-              <div className="btn-shine"></div>
-            </button>
-            <button
-              onClick={scrollToServices}
-              className="btn btn-service"
-              aria-label={hero.secondaryCta}
-            >
-              <span>{hero.secondaryCta}</span>
-              <ArrowRight className="btn-arrow" aria-hidden="true" />
-            </button>
-          </div>
-
         </div>
       </div>
 
