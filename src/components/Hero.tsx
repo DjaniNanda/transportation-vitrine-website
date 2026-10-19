@@ -100,15 +100,6 @@ const Hero: React.FC = () => {
             </button>
           </div>
 
-          {/* Trust indicators */}
-          <div className="trust-indicators">
-            {hero.trustBadges.map((badge) => (
-              <div className="trust-item" key={badge}>
-                <CheckCircle className="trust-icon" aria-hidden="true" />
-                <span>{badge}</span>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
 
