@@ -166,7 +166,7 @@
   z-index: 10;
   width: 100%;
   max-width: 1280px;
-  margin-left: 0;
+  margin-left: 0.49rem;
   padding: 0 1.5rem 3.5rem;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -226,7 +226,7 @@
   flex-wrap: nowrap; /* both buttons always side by side */
   justify-content: flex-start;
   gap: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 2.4rem;
 }
 
 /* ---------- Tracking card ---------- */
