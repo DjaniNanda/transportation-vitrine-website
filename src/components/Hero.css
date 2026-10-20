@@ -608,7 +608,7 @@
 }
 
 /* ---------- Phones (up to 480px) ---------- */
-@media (max-width: 365px) {
+@media (max-width: 485px) {
   
   .hero-title {
     font-size: clamp(1.7rem, 8.4vw, 3.4rem);
@@ -656,14 +656,16 @@
 }
 
 /* Very small phones: drop the chat icon so both labels still fit */
-@media (max-width: 360px) {
+@media (max-width: 380px) {
   .btn {
-    font-size: 0.82rem;
-    padding: 0.85rem 0.5rem;
+    gap: 0.4rem;
+    padding: 0.9rem 0.6rem;
+    font-size: 1.2rem;
   }
 
   .btn-icon {
-    display: none;
+    width: 1.3rem;
+    height: 1.3rem;
   }
 }
 
