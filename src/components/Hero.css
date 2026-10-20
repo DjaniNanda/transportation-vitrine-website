@@ -457,13 +457,15 @@
 @media (max-width: 768px) {
   .hero {
     --map-h: calc(100vw / var(--map-aspect, 1.9));
+    --map-top: 1.5rem; /* how far the map sits below the top of the hero (bigger = lower) */
+    --text-up: 0.75rem; /* how far the text is pulled up (bigger = higher) */
     margin-top: 23px;
     /* Only as tall as its content, so the text stays over the map */
     min-height: 0;
   }
 
   .hero-map {
-    top: 0;
+    top: var(--map-top);
     left: 0;
     right: 0;
     height: var(--map-h);
@@ -506,9 +508,9 @@
 
   .hero-inner {
     margin-left: 0;
-    /* Title starts 2.75rem below the origin dot (which sits --origin-y of the
-       way down the map), so the dot is always visible above the text */
-    padding: calc(var(--map-h) * var(--origin-y, 0.25) + 2.75rem) clamp(1.25rem, 4vw, 2.25rem) 2.5rem;
+    /* Title starts just under the origin dot (which sits --origin-y of the way
+       down the map, plus the map's own offset --map-top), minus --text-up */
+    padding: calc(var(--map-h) * var(--origin-y, 0.25) + var(--map-top) + 2.75rem - var(--text-up)) clamp(1.25rem, 4vw, 2.25rem) 2.5rem;
     gap: 1.75rem;
   }
 
