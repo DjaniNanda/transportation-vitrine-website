@@ -608,7 +608,7 @@
 }
 
 /* ---------- Phones (up to 480px) ---------- */
-@media (max-width: 480px) {
+@media (max-width: 440px) {
   
   .hero-title {
     font-size: clamp(1.7rem, 8.4vw, 3.4rem);
