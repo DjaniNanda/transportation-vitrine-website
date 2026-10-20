@@ -620,7 +620,7 @@
   }
 
   .hero-description {
-    margin-top: 0.75rem;
+    margin-top: 3.75rem;
     margin-bottom: 1.75rem;
     line-height: 1.65;
   }
@@ -656,7 +656,10 @@
 }
 
 /* Very small phones: drop the chat icon so both labels still fit */
-@media (max-width: 400px) {
+@media (max-width: 365px) {
+  hero-description {
+    margin-top: 0.75rem;
+  }
   .btn {
     gap: 0.4rem;
     padding: 0.9rem 0.6rem;
