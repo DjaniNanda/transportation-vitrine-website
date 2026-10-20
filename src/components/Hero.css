@@ -459,7 +459,7 @@
     --map-h: 66%;
     --map-top: -1rem; /* how far the map sits below the top of the hero (bigger = lower) */
     --text-up: 0.5rem; /* how far the text is pulled up (bigger = higher) */
-    margin-top: 23px;
+    margin-top: 16px;
     /* Only as tall as its content, so the text stays over the map */
     min-height: 0;
   }
