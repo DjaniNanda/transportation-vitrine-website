@@ -619,6 +619,21 @@
     font-size: clamp(2.4rem, 11.5vw, 5rem);
   }
 
+  .hero-description {
+    margin-top: 0.75rem;
+    margin-bottom: 1.75rem;
+    line-height: 1.65;
+  }
+  
+  .hero-title {
+    font-size: clamp(1.7rem, 8.4vw, 3.4rem);
+  }
+
+  /* Keeps "Translogistics" on one line */
+  .title-company {
+    font-size: clamp(2.4rem, 11.5vw, 5rem);
+  }
+
   .btn {
     gap: 0.4rem;
     padding: 0.9rem 0.6rem;
