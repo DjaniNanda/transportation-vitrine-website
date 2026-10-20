@@ -553,7 +553,7 @@
 
 /* ---------- Large phones / small tablets (up to 600px) ----------
    Both buttons share the row equally so they never overflow. */
-@media (max-width: 600px) {
+@media (max-width: 660px) {
   
   .hero-title {
     font-size: clamp(1.7rem, 9.4vw, 3.4rem);
@@ -596,7 +596,7 @@
 }
 
 /* ---------- Tablet portrait (601px to 768px) ---------- */
-@media (min-width: 601px) and (max-width: 768px) {
+@media (min-width: 661px) and (max-width: 768px) {
   /* A full-width tracking card looks stretched at this size */
   .track-card {
     max-width: 360px;
@@ -608,7 +608,7 @@
 }
 
 /* ---------- Phones (up to 480px) ---------- */
-@media (max-width: 550px) {
+@media (max-width: 580px) {
   
   .hero-title {
     font-size: clamp(1.7rem, 8.4vw, 3.4rem);
