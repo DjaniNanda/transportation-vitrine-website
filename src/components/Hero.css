@@ -656,7 +656,7 @@
 }
 
 /* Very small phones: drop the chat icon so both labels still fit */
-@media (max-width: 380px) {
+@media (max-width: 400px) {
   .btn {
     gap: 0.4rem;
     padding: 0.9rem 0.6rem;
