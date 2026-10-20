@@ -457,7 +457,7 @@
 @media (max-width: 768px) {
   .hero {
     --map-h: 69%;
-    --map-top: 2.75rem; /* how far the map sits below the top of the hero (bigger = lower) */
+    --map-top: -5.75rem; /* how far the map sits below the top of the hero (bigger = lower) */
     --text-up: 0.75rem; /* how far the text is pulled up (bigger = higher) */
     margin-top: 23px;
     /* Only as tall as its content, so the text stays over the map */
