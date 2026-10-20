@@ -446,21 +446,27 @@
 }
 
 /* ---------- Tablet and phone (up to 768px) ----------
-   The text sits ON TOP of the map. The map view is auto-fitted to the origin +
-   destinations in Hero.tsx, so the point of origin is always visible. */
+   Everything here is driven by the screen width, with no hand-tuned offsets:
+   - --map-aspect and --origin-y are set by Hero.tsx from the origin and
+     destinations (width/height of the visible map, and where the origin sits
+     from top to bottom).
+   - The map is exactly 100vw wide and 100vw / --map-aspect tall, so it starts
+     right at the top of the hero with no empty band, on any width.
+   - The text starts just under the origin dot and rises over the rest of the
+     map. */
 @media (max-width: 768px) {
   .hero {
+    --map-h: calc(100vw / var(--map-aspect, 1.9));
     margin-top: 23px;
-    /* Hero is only as tall as its content, so the text stays over the map
-       instead of being pushed below it */
+    /* Only as tall as its content, so the text stays over the map */
     min-height: 0;
   }
 
   .hero-map {
-    top: 2.5rem;
+    top: 0;
     left: 0;
     right: 0;
-    height: 75%;
+    height: var(--map-h);
   }
 
   .route-map {
@@ -500,7 +506,9 @@
 
   .hero-inner {
     margin-left: 0;
-    padding: 8rem 1.25rem 2.5rem;
+    /* Title starts 2.75rem below the origin dot (which sits --origin-y of the
+       way down the map), so the dot is always visible above the text */
+    padding: calc(var(--map-h) * var(--origin-y, 0.25) + 2.75rem) clamp(1.25rem, 4vw, 2.25rem) 2.5rem;
     gap: 1.75rem;
   }
 
@@ -512,7 +520,7 @@
   .hero-title {
     margin: 0 0 0.75rem;
     gap: 0.35rem;
-    font-size: clamp(2.1rem, 8.4vw, 3.4rem);
+    font-size: clamp(1.7rem, 8.4vw, 3.4rem);
     line-height: 1.1;
     letter-spacing: -0.03em;
   }
@@ -541,28 +549,8 @@
   }
 }
 
-/* ---------- In-between sizes (481px to 768px) ----------
-   Instead of jumping from the phone values to the tablet values, these glide
-   smoothly between them:
-     480px -> hero text starts 4.5rem down, map top at -4.8rem
-     768px -> hero text starts 8rem down,   map top at  2.5rem
-   (0.1944 = 56px / 288px and 0.4056 = 116.8px / 288px, 288 = 768 - 480) */
-@media (min-width: 481px) and (max-width: 768px) {
-  .hero-inner {
-    padding-top: calc(4.5rem + (100vw - 480px) * 0.0944);
-    padding-bottom: 3rem;
-    padding-left: clamp(1.25rem, 4vw, 2.25rem);
-    padding-right: clamp(1.25rem, 4vw, 2.25rem);
-  }
-
-  .hero-map {
-    top: calc(-4.8rem + (100vw - 480px) * 0.290);
-  }
-}
-
 /* ---------- Large phones / small tablets (up to 600px) ----------
-   Both buttons share the row equally, as on phones, so they never overflow
-   between 481px and 600px. */
+   Both buttons share the row equally so they never overflow. */
 @media (max-width: 600px) {
   .hero-buttons {
     flex-direction: row;
@@ -604,23 +592,6 @@
 
 /* ---------- Phones (up to 480px) ---------- */
 @media (max-width: 480px) {
-  .hero-inner {
-    margin-left: 0;
-    padding: 4.5rem 1.25rem 2.5rem;
-    gap: 1.75rem;
-  }
-
-  .hero-map {
-    top: calc(-4.8rem + (100vw - 360px) * 0.290);
-    left: 0;
-    right: 0;
-    height: 75%;
-  }
-
-  .hero-title {
-    font-size: clamp(1.7rem, 8.4vw, 2.6rem);
-  }
-
   .btn {
     gap: 0.4rem;
     padding: 0.9rem 0.6rem;

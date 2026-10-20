@@ -55,7 +55,7 @@ const ROUTES = DESTINATIONS.map((dest, i) => {
  * ------------------------------------------------------------------------- */
 const DESKTOP_VIEWBOX = '20 16 650 256';
 
-const MOBILE_VIEWBOX = (() => {
+const MOBILE_VIEW = (() => {
   const xs: number[] = [origin.x];
   const ys: number[] = [origin.y];
   ROUTES.forEach((r) => {
@@ -65,13 +65,21 @@ const MOBILE_VIEWBOX = (() => {
       ys.push(u * u * origin.y + 2 * u * t * r.cy + t * t * r.to.y);
     }
   });
-  const padX = 30;
-  const padY = 26;
+  // Tight padding: the map starts right where the content starts, no empty band
+  const padX = 26;
+  const padTop = 18;
+  const padBottom = 14;
   const minX = Math.min(...xs) - padX;
   const maxX = Math.max(...xs) + padX;
-  const minY = Math.min(...ys) - padY;
-  const maxY = Math.max(...ys) + padY;
-  return `${minX.toFixed(1)} ${minY.toFixed(1)} ${(maxX - minX).toFixed(1)} ${(maxY - minY).toFixed(1)}`;
+  const minY = Math.min(...ys) - padTop;
+  const maxY = Math.max(...ys) + padBottom;
+  const w = maxX - minX;
+  const h = maxY - minY;
+  return {
+    box: `${minX.toFixed(1)} ${minY.toFixed(1)} ${w.toFixed(1)} ${h.toFixed(1)}`,
+    aspect: w / h, // width / height of the visible map
+    originY: (origin.y - minY) / h, // 0 = top of the map, 1 = bottom
+  };
 })();
 
 const MOBILE_QUERY = '(max-width: 768px)';
@@ -149,13 +157,20 @@ const Hero: React.FC = () => {
   // Markers are drawn a bit larger on phones, where the map is scaled down
   const k = isMobile ? 1.5 : 1;
 
+  // Lets the CSS size the phone map from the screen width and start the text
+  // just under the origin dot, so nothing depends on hand-tuned offsets.
+  const heroVars = {
+    '--map-aspect': MOBILE_VIEW.aspect.toFixed(3),
+    '--origin-y': MOBILE_VIEW.originY.toFixed(3),
+  } as React.CSSProperties;
+
   return (
-    <section id="accueil" className="hero" aria-label={`${business.name} - ${business.tagline}`}>
+    <section id="accueil" className="hero" style={heroVars} aria-label={`${business.name} - ${business.tagline}`}>
       {/* Decorative animated map */}
       <div className="hero-map" aria-hidden="true">
         <svg
           className={mapClass}
-          viewBox={isMobile ? MOBILE_VIEWBOX : DESKTOP_VIEWBOX}
+          viewBox={isMobile ? MOBILE_VIEW.box : DESKTOP_VIEWBOX}
           preserveAspectRatio="xMidYMid meet"
           focusable="false"
         >
