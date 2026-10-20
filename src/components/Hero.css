@@ -456,9 +456,9 @@
      map. */
 @media (max-width: 768px) {
   .hero {
-    --map-h: 66%;
-    --map-top: -3rem; /* how far the map sits below the top of the hero (bigger = lower) */
-    --text-up: 0.5rem; /* how far the text is pulled up (bigger = higher) */
+    --map-h: calc(100vw / var(--map-aspect, 6.9));
+    --map-top: 0.75rem; /* how far the map sits below the top of the hero (bigger = lower) */
+    --text-up: 0.75rem; /* how far the text is pulled up (bigger = higher) */
     margin-top: 23px;
     /* Only as tall as its content, so the text stays over the map */
     min-height: 0;
@@ -520,7 +520,7 @@
   }
 
   .hero-title {
-    margin: 2 0 0.75rem;
+    margin: 0 0 0.75rem;
     gap: 0.35rem;
     font-size: clamp(1.7rem, 8.4vw, 3.4rem);
     line-height: 1.1;
