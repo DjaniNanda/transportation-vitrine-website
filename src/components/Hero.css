@@ -553,7 +553,7 @@
 
 /* ---------- Large phones / small tablets (up to 600px) ----------
    Both buttons share the row equally so they never overflow. */
-@media (max-width: 660px) {
+@media (max-width: 600px) {
   
   .hero-title {
     font-size: clamp(1.7rem, 9.4vw, 3.4rem);
@@ -608,7 +608,7 @@
 }
 
 /* ---------- Phones (up to 480px) ---------- */
-@media (max-width: 580px) {
+@media (max-width: 500px) {
   
   .hero-title {
     font-size: clamp(1.7rem, 8.4vw, 3.4rem);
