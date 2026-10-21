@@ -1,14 +1,16 @@
-/* Service comparison table — retheme via CSS variables. */
+/* Service comparison table — retheme via CSS variables.
+   The table always fits its container and scales down with the screen
+   (no horizontal scrolling): fonts, padding and icons shrink with clamp(). */
 
 .checklist-section {
   background-color: var(--color-primary);
   color: white;
-  padding: 100px 5%;
+  padding: clamp(50px, 10vw, 100px) 5%;
   width: 100%;
 }
 
 .checklist-title {
-  font-size: 3rem;
+  font-size: clamp(1.5rem, 5vw, 3rem);
   margin-bottom: 15px;
   text-align: center;
   color: var(--color-accent-light);
@@ -39,28 +41,25 @@
 .checklist-subtitle {
   text-align: center;
   max-width: 700px;
-  margin: 0 auto 50px;
+  margin: 0 auto clamp(25px, 5vw, 50px);
   color: rgba(255, 255, 255, 0.75);
-  font-size: 1.05rem;
+  font-size: clamp(0.9rem, 2.5vw, 1.05rem);
 }
 
 .checklist-container {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  overflow-x: auto; /* table scrolls sideways on small screens */
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior-x: contain;
   border-radius: 10px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   background-color: rgba(255, 255, 255, 0.05);
-  padding: 20px;
+  padding: clamp(6px, 2vw, 20px);
 }
 
-/* Fixed layout = equal column widths, so every icon sits under its header */
+/* Fixed layout = equal column widths, so every icon sits under its header.
+   No min-width: the table is always exactly as wide as the screen allows. */
 .checklist-table {
   width: 100%;
-  min-width: 560px;
   table-layout: fixed;
   border-collapse: collapse;
   border-spacing: 0;
@@ -68,10 +67,12 @@
 
 .checklist-table th,
 .checklist-table td {
-  padding: 15px;
+  padding: clamp(6px, 1.8vw, 15px) clamp(3px, 1.2vw, 15px);
   text-align: center;
   vertical-align: middle;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: clamp(0.7rem, 2.2vw, 1rem);
+  overflow-wrap: anywhere; /* long words wrap instead of overflowing */
 }
 
 .checklist-table td {
@@ -84,16 +85,6 @@
   text-align: left;
 }
 
-/* Pinned first column. Background must be solid so other columns
-   don't show through while scrolling. */
-.task-column,
-.checklist-table th.task-name {
-  position: sticky;
-  left: 0;
-  z-index: 1;
-  background-color: var(--color-primary);
-}
-
 thead .task-column {
   border-bottom: none;
 }
@@ -102,20 +93,19 @@ thead .task-column {
   background-color: var(--color-accent);
   color: #0d0d0d;
   font-weight: bold;
-  padding: 15px 10px;
   text-transform: uppercase;
-  font-size: 0.85rem;
-  letter-spacing: 0.5px;
+  font-size: clamp(0.55rem, 1.9vw, 0.85rem);
+  letter-spacing: clamp(0, 0.1vw, 0.5px);
 }
 
 .category-row th {
-  padding: 20px 15px;
+  padding: clamp(10px, 3vw, 20px) clamp(6px, 2vw, 15px);
   font-weight: bold;
-  font-size: 1.15rem;
+  font-size: clamp(0.75rem, 2.8vw, 1.15rem);
   background-color: rgba(47, 174, 78, 0.12);
   color: var(--color-accent-light);
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: clamp(0px, 0.15vw, 1px);
   text-align: left;
 }
 
@@ -128,7 +118,6 @@ thead .task-column {
   text-align: left;
   font-weight: 500;
   color: white;
-  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.25); /* shows the column is pinned */
 }
 
 /* Centre icons regardless of any global svg reset */
@@ -140,84 +129,25 @@ thead .task-column {
 /* Prefixed so they don't collide with .check-icon in Services.css */
 .checklist-check-icon {
   color: var(--color-accent-light);
-  width: 20px;
-  height: 20px;
+  width: clamp(13px, 3.2vw, 20px);
+  height: clamp(13px, 3.2vw, 20px);
 }
 
 .checklist-x-icon {
   color: rgba(255, 255, 255, 0.3);
-  width: 18px;
-  height: 18px;
+  width: clamp(12px, 3vw, 18px);
+  height: clamp(12px, 3vw, 18px);
 }
 
 /* Text values (e.g. "Optional") are inline; td's text-align centres them */
 .text-xs {
-  font-size: 0.75rem;
+  font-size: clamp(0.55rem, 1.8vw, 0.75rem);
   color: rgba(255, 255, 255, 0.7);
 }
 
-@media (max-width: 768px) {
-  .checklist-section {
-    padding: 70px 4%;
-  }
-
-  .checklist-title {
-    font-size: clamp(1.6rem, 7vw, 2.2rem);
-  }
-
-  .checklist-subtitle {
-    font-size: 0.95rem;
-    margin-bottom: 30px;
-  }
-
-  .checklist-container {
-    padding: 8px;
-  }
-
-  .checklist-table th,
-  .checklist-table td {
-    padding: 10px 6px;
-    font-size: 0.85rem;
-  }
-
-  /* narrower pinned column; other columns share the rest */
-  .task-column,
-  .checklist-table th.task-name {
-    width: 130px;
-    min-width: 130px;
-    font-size: 0.8rem;
-  }
-
-  .service-column {
-    font-size: 0.7rem;
-    letter-spacing: 0;
-    padding: 10px 4px;
-  }
-
-  .category-row th {
-    font-size: 0.95rem;
-    padding: 14px 10px;
-  }
-
-  .checklist-check-icon {
-    width: 18px;
-    height: 18px;
-  }
-
-  .checklist-x-icon {
-    width: 16px;
-    height: 16px;
-  }
-}
-
+/* Very small phones: give the task names a bit more room */
 @media (max-width: 480px) {
-  .checklist-table {
-    min-width: 480px;
-  }
-
-  .task-column,
-  .checklist-table th.task-name {
-    width: 110px;
-    min-width: 110px;
+  .task-column {
+    width: 34%;
   }
 }
