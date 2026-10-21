@@ -102,8 +102,8 @@ export const siteConfig = {
   nav: [
     { id: 'accueil', label: 'Home' },
     { id: 'services', label: 'Services' },
-    { id: 'about', label: 'About' },
     { id: 'checklist', label: 'Checklist' },
+    { id: 'about', label: 'About' },
     { id: 'reviews', label: 'Reviews' },
     { id: 'contact', label: 'Contact' },
   ],
@@ -119,8 +119,6 @@ export const siteConfig = {
     description:
   'Professional moving, tire export and vehicle export services, delivered safely and on time.',
 descriptionHighlight: 'moving, tire export and vehicle export',
-    backgroundImage: '/hero.jpg', // TODO: add image to /public
-    trustBadges: ['Trusted Logistics Partner', 'International Reach', 'Reliable & Efficient'],
     primaryCta: 'Get in Touch',
     secondaryCta: 'Our Services',
   },
@@ -144,7 +142,7 @@ descriptionHighlight: 'moving, tire export and vehicle export',
     ctaTitle: 'Need a custom logistics solution?',
     ctaDescription:
       "Contact us today to discuss your moving, tire export, or vehicle export needs — we'll tailor a solution to fit your requirements.",
-    ctaButton: 'Request a Quote',
+    ctaButton: 'Get in Touch',
     items: [
       {
         icon: 'truck',
@@ -157,8 +155,7 @@ descriptionHighlight: 'moving, tire export and vehicle export',
           'Loading, unloading & delivery',
         ],
         price: 'Request a Quote', // TODO: add real pricing if applicable
-        rating: 4.9, // TODO: placeholder rating — replace once real reviews exist
-        image: '/service-moving.jpg', // TODO: add image
+        image: '/service-moving.jfif', 
       },
       {
         icon: 'package',
@@ -171,8 +168,7 @@ descriptionHighlight: 'moving, tire export and vehicle export',
           'Packaging, logistics & shipping coordination',
         ],
         price: 'Request a Quote',
-        rating: 4.9,
-        image: '/service-tires.jpg', // TODO: add image
+        image: '/service-tires.jfif', // TODO: add image
       },
       {
         icon: 'car',
@@ -186,7 +182,7 @@ descriptionHighlight: 'moving, tire export and vehicle export',
         ],
         price: 'Request a Quote',
         rating: 4.9,
-        image: '/service-vehicles.jpg', // TODO: add image
+        image: '/service-vehicles.jfif', // TODO: add image
       },
     ] as ServiceItem[],
   },

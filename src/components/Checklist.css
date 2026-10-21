@@ -1,5 +1,4 @@
-/* Service comparison table — ported from the Lovely Serenity reference
-   site's "cleaning checklist" section, retheme via CSS variables. */
+/* Service comparison table — retheme via CSS variables. */
 
 .checklist-section {
   background-color: var(--color-primary);
@@ -49,35 +48,42 @@
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  overflow-x: auto;
+  overflow-x: auto; /* table scrolls sideways on small screens */
   border-radius: 10px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   background-color: rgba(255, 255, 255, 0.05);
   padding: 20px;
 }
 
+/* Fixed layout = equal column widths, so every icon sits under its header */
 .checklist-table {
   width: 100%;
+  min-width: 640px;
+  table-layout: fixed;
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-.checklist-table th {
+.checklist-table th,
+.checklist-table td {
   padding: 15px;
   text-align: center;
+  vertical-align: middle;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .checklist-table td {
   color: white;
-  padding: 15px;
-  text-align: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Empty top-left cell + task names column */
 .task-column {
-  text-align: left;
   width: 30%;
+  text-align: left;
+}
+
+thead .task-column {
+  border-bottom: none;
 }
 
 .service-column {
@@ -90,12 +96,12 @@
   letter-spacing: 0.5px;
 }
 
-.category-row td {
+.category-row th {
   padding: 20px 15px;
   font-weight: bold;
   font-size: 1.15rem;
   background-color: rgba(47, 174, 78, 0.12);
-  color: var(--color-accent-light) !important;
+  color: var(--color-accent-light);
   text-transform: uppercase;
   letter-spacing: 1px;
   text-align: left;
@@ -105,23 +111,33 @@
   background-color: rgba(255, 255, 255, 0.05);
 }
 
-.task-name {
+/* Row headers: look like normal cells, left-aligned */
+.checklist-table th.task-name {
   text-align: left;
   font-weight: 500;
+  color: white;
 }
 
-.check-icon {
+/* Centre icons regardless of any global svg reset */
+.checklist-icon {
+  display: block;
+  margin: 0 auto;
+}
+
+/* Prefixed so they don't collide with .check-icon in Services.css */
+.checklist-check-icon {
   color: var(--color-accent-light);
   width: 20px;
   height: 20px;
 }
 
-.x-icon {
+.checklist-x-icon {
   color: rgba(255, 255, 255, 0.3);
   width: 18px;
   height: 18px;
 }
 
+/* Text values (e.g. "Optional") are inline; td's text-align centres them */
 .text-xs {
   font-size: 0.75rem;
   color: rgba(255, 255, 255, 0.7);
@@ -134,6 +150,10 @@
 
   .checklist-title {
     font-size: 2.2rem;
+  }
+
+  .checklist-container {
+    padding: 12px;
   }
 
   .checklist-table th,

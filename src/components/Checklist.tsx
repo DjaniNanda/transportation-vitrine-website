@@ -11,28 +11,31 @@ const Checklist: React.FC = () => {
       return <span className="text-xs">{value}</span>;
     }
     return value ? (
-      <Check className="check-icon" aria-label="Included" />
+      <Check className="checklist-icon checklist-check-icon" role="img" aria-label="Included" />
     ) : (
-      <X className="x-icon" aria-label="Not included" />
+      <X className="checklist-icon checklist-x-icon" role="img" aria-label="Not included" />
     );
   };
 
   return (
-    <section id="checklist" className="checklist-section">
+    <section id="checklist" className="checklist-section" aria-labelledby="checklist-heading">
       <div className="section-badge">
+        <ListChecks className="badge-icon" aria-hidden="true" />
         <span>{checklist.badge}</span>
       </div>
 
-      <h2 className="checklist-title">{checklist.title}</h2>
+      <h2 id="checklist-heading" className="checklist-title">
+        {checklist.title}
+      </h2>
       {checklist.subtitle && <p className="checklist-subtitle">{checklist.subtitle}</p>}
 
       <div className="checklist-container">
-        <table className="checklist-table">
+        <table className="checklist-table" aria-labelledby="checklist-heading">
           <thead>
             <tr>
-              <th className="task-column"></th>
+              <td className="task-column" />
               {checklist.columns.map((col) => (
-                <th className="service-column" key={col}>
+                <th scope="col" className="service-column" key={col}>
                   {col}
                 </th>
               ))}
@@ -42,11 +45,15 @@ const Checklist: React.FC = () => {
             {checklist.categories.map((category) => (
               <React.Fragment key={category.name}>
                 <tr className="category-row">
-                  <td colSpan={checklist.columns.length + 1}>{category.name}</td>
+                  <th scope="colgroup" colSpan={checklist.columns.length + 1}>
+                    {category.name}
+                  </th>
                 </tr>
                 {category.tasks.map((task) => (
                   <tr className="task-row" key={task.task}>
-                    <td className="task-name">{task.task}</td>
+                    <th scope="row" className="task-name">
+                      {task.task}
+                    </th>
                     {task.values.map((value, idx) => (
                       <td key={idx}>{renderCell(value)}</td>
                     ))}
