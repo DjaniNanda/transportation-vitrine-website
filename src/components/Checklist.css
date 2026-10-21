@@ -49,6 +49,8 @@
   max-width: 1200px;
   margin: 0 auto;
   overflow-x: auto; /* table scrolls sideways on small screens */
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
   border-radius: 10px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   background-color: rgba(255, 255, 255, 0.05);
@@ -58,7 +60,7 @@
 /* Fixed layout = equal column widths, so every icon sits under its header */
 .checklist-table {
   width: 100%;
-  min-width: 640px;
+  min-width: 560px;
   table-layout: fixed;
   border-collapse: collapse;
   border-spacing: 0;
@@ -80,6 +82,16 @@
 .task-column {
   width: 30%;
   text-align: left;
+}
+
+/* Pinned first column. Background must be solid so other columns
+   don't show through while scrolling. */
+.task-column,
+.checklist-table th.task-name {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background-color: var(--color-primary);
 }
 
 thead .task-column {
@@ -116,6 +128,7 @@ thead .task-column {
   text-align: left;
   font-weight: 500;
   color: white;
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.25); /* shows the column is pinned */
 }
 
 /* Centre icons regardless of any global svg reset */
@@ -145,20 +158,66 @@ thead .task-column {
 
 @media (max-width: 768px) {
   .checklist-section {
-    padding: 70px 5%;
+    padding: 70px 4%;
   }
 
   .checklist-title {
-    font-size: 2.2rem;
+    font-size: clamp(1.6rem, 7vw, 2.2rem);
+  }
+
+  .checklist-subtitle {
+    font-size: 0.95rem;
+    margin-bottom: 30px;
   }
 
   .checklist-container {
-    padding: 12px;
+    padding: 8px;
   }
 
   .checklist-table th,
   .checklist-table td {
-    padding: 10px 8px;
+    padding: 10px 6px;
     font-size: 0.85rem;
+  }
+
+  /* narrower pinned column; other columns share the rest */
+  .task-column,
+  .checklist-table th.task-name {
+    width: 130px;
+    min-width: 130px;
+    font-size: 0.8rem;
+  }
+
+  .service-column {
+    font-size: 0.7rem;
+    letter-spacing: 0;
+    padding: 10px 4px;
+  }
+
+  .category-row th {
+    font-size: 0.95rem;
+    padding: 14px 10px;
+  }
+
+  .checklist-check-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .checklist-x-icon {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .checklist-table {
+    min-width: 480px;
+  }
+
+  .task-column,
+  .checklist-table th.task-name {
+    width: 110px;
+    min-width: 110px;
   }
 }
