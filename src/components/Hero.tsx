@@ -220,7 +220,6 @@ const Hero: React.FC = () => {
 
           <div className="hero-buttons">
             <button onClick={openWhatsApp} className="btn btn-whatsapp" aria-label={hero.primaryCta}>
-              <MessageCircle className="btn-icon" aria-hidden="true" />
               <span>{hero.primaryCta}</span>
               <ArrowRight className="btn-arrow" aria-hidden="true" />
               <div className="btn-shine"></div>

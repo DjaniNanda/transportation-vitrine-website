@@ -121,7 +121,7 @@ export const siteConfig = {
 descriptionHighlight: 'moving, tire export and vehicle export',
     backgroundImage: '/hero.jpg', // TODO: add image to /public
     trustBadges: ['Trusted Logistics Partner', 'International Reach', 'Reliable & Efficient'],
-    primaryCta: 'Request a Quote',
+    primaryCta: 'Get in Touch',
     secondaryCta: 'Our Services',
   },
 
