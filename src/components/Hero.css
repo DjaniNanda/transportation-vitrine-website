@@ -656,7 +656,7 @@
 }
 
 /* Very small phones: drop the chat icon so both labels still fit */
-@media (max-width: 375px) {
+@media (max-width: 385px) {
   hero-description {
     margin-top: 0.75rem;
   }
