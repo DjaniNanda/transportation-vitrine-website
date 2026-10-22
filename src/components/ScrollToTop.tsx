@@ -29,7 +29,24 @@ const ScrollToTop = () => {
 
   const scrollToTop = () => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    window.scrollTo({ top: 0, left: 0, behavior: reduce ? 'auto' : 'smooth' });
+    const start = window.scrollY;
+    if (reduce || start === 0) {
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    // Drive the scroll ourselves (fixed duration, ease-out) instead of the
+    // browser's native smooth scroll, which can tear/mis-paint on a very long
+    // page with 3D and sticky layers while it travels thousands of pixels.
+    const duration = 600;
+    const t0 = performance.now();
+    const step = (now: number) => {
+      const p = Math.min(1, (now - t0) / duration);
+      const eased = 1 - Math.pow(1 - p, 3);
+      window.scrollTo(0, Math.round(start * (1 - eased)));
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
   };
 
   return (
