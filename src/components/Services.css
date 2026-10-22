@@ -228,7 +228,7 @@
 }
 
 .service-content {
-  position: relative;
+  /* static (not relative) so .service-link::after can stretch over the whole card */
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -354,6 +354,43 @@
 .service-button svg {
   width: 1.1rem;
   height: 1.1rem;
+}
+
+/* Stretched link: the card as a whole is the click target */
+.service-link {
+  text-decoration: none;
+}
+
+.service-link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: var(--svc-radius);
+}
+
+/* A transform on the link would turn it into the containing block of its ::after
+   (shrinking the click area to the button while pressed), so never set one here. */
+.service-button.service-link:active,
+.service-button.service-link:hover {
+  transform: none;
+}
+
+.service-link:focus-visible {
+  outline: none; /* the card shows the focus ring instead, see below */
+}
+
+.service-card:has(.service-link:focus-visible) {
+  outline: 3px solid var(--svc-accent-light);
+  outline-offset: 3px;
+}
+
+/* Hovering anywhere on the card highlights the button too */
+.service-card:hover .service-button,
+.service-button:hover {
+  background: var(--svc-accent);
+  border-color: var(--svc-accent);
+  color: var(--svc-on-accent);
 }
 
 .service-button:hover {

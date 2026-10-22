@@ -1,27 +1,15 @@
 import React from 'react';
 import { MapPin, Phone, Mail, Clock, MessageCircle, Facebook, Instagram, Twitter, Linkedin } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { siteConfig } from '../config/siteConfig';
+import { useSectionNav } from '../hooks/useSectionNav';
+import { openWhatsApp } from '../utils/whatsapp';
 import './Footer.css';
 
 const Footer: React.FC = () => {
   const { business, contact, nav, services, footer } = siteConfig;
 
-  const openWhatsApp = () => {
-    const url = `https://wa.me/${contact.whatsappNumber}?text=${encodeURIComponent(contact.whatsappMessage)}`;
-    window.open(url, '_blank');
-  };
-
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      const headerHeight = 77; // matches .navbar height in Header.css
-      const elementPosition = element.offsetTop - headerHeight;
-      window.scrollTo({
-        top: elementPosition,
-        behavior: 'smooth',
-      });
-    }
-  };
+  const scrollToSection = useSectionNav();
 
   const socialLinks = [
     { key: 'facebook', href: contact.socials?.facebook, icon: <Facebook />, label: 'Facebook' },
@@ -34,7 +22,16 @@ const Footer: React.FC = () => {
     <footer className="footer">
       <div className="footer-container">
         <div className="footer-logo">
-          <h2>{business.name}</h2>
+          <img
+            className="footer-logo-img"
+            src={business.logo}
+            alt=""
+            width={900}
+            height={361}
+            loading="lazy"
+            decoding="async"
+          />
+          <h2 className="footer-logo-name">{business.name}</h2>
           <p className="footer-tagline">{business.tagline}</p>
         </div>
 
@@ -44,15 +41,7 @@ const Footer: React.FC = () => {
             <ul>
               {services.items.map((service) => (
                 <li key={service.title}>
-                  <a
-                    href="#services"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      scrollToSection('services');
-                    }}
-                  >
-                    {service.title}
-                  </a>
+                  <Link to={`/services/${service.slug}`}>{service.title}</Link>
                 </li>
               ))}
             </ul>
@@ -64,7 +53,7 @@ const Footer: React.FC = () => {
               {nav.map((item) => (
                 <li key={item.id}>
                   <a
-                    href={`#${item.id}`}
+                    href={`/#${item.id}`}
                     onClick={(e) => {
                       e.preventDefault();
                       scrollToSection(item.id);
@@ -123,8 +112,8 @@ const Footer: React.FC = () => {
                 ))}
               </div>
             )}
-            <button className="footer-whatsapp" onClick={openWhatsApp}>
-              <MessageCircle />
+            <button className="footer-whatsapp" onClick={() => openWhatsApp()}>
+              
               <span>Chat on WhatsApp</span>
             </button>
           </div>

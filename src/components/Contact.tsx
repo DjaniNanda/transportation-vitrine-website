@@ -123,21 +123,6 @@ const Contact: React.FC = () => {
                 ></iframe>
               </div>
             </div>
-
-            <div className="exact-whatsapp-cta">
-              <div className="exact-whatsapp-bg-effect"></div>
-              <div className="exact-whatsapp-content">
-                <div className="exact-whatsapp-icon-large">
-                  <MessageCircle />
-                </div>
-                <h3>Quick Booking</h3>
-                <p>Reach out directly on WhatsApp for a fast, personalized response</p>
-                <button onClick={openWhatsApp} className="exact-btn exact-btn-whatsapp">
-                  <MessageCircle className="exact-btn-icon" />
-                  <span>Contact via WhatsApp</span>
-                </button>
-              </div>
-            </div>
           </div>
         </div>
       </div>

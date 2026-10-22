@@ -32,7 +32,7 @@
   padding: 0.75rem 1.5rem;
   border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 2rem;
-  margin: 0 auto 1.5rem;
+  margin: -35rem auto 1.5rem;
   color: #ffffff;
   font-size: 0.9rem;
   font-weight: 500;
@@ -44,7 +44,7 @@
   height: 1rem;
 }
 
-.about-text h1 {
+.about-title {
   font-size: 2.5rem;
   margin-bottom: 30px;
   color: var(--color-primary);
@@ -52,7 +52,7 @@
   padding-bottom: 15px;
 }
 
-.about-text h1::after {
+.about-title::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -67,6 +67,11 @@
   margin-bottom: 25px;
   font-size: 1.1rem;
   color: #555;
+}
+
+.about-text .about-lead {
+  font-size: 1.2rem;
+  color: #374151;
 }
 
 .about-text p strong {
@@ -155,7 +160,7 @@
     padding: 70px 5%;
   }
 
-  .about-text h1 {
+  .about-title {
     font-size: 2rem;
   }
 }
@@ -164,4 +169,193 @@
   .book-now-button {
     width: 100%;
   }
+}
+
+/* ==========================================================================
+   Extended About content: divisions, values, commitment
+   ========================================================================== */
+
+.about-block {
+  max-width: 1400px;
+  margin: 80px auto 0;
+}
+
+.about-block-title {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.4rem, 3vw, 1.8rem);
+  color: var(--color-primary);
+}
+
+.about-block-intro {
+  margin: 0 0 1.75rem;
+  color: #555;
+  font-size: 1.05rem;
+}
+
+.about-block-title:not(:has(+ .about-block-intro)) {
+  margin-bottom: 1.75rem;
+}
+
+/* Divisions */
+
+.about-divisions,
+.about-values {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 1.25rem;
+}
+
+.about-division {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  height: 100%;
+  padding: 1.75rem;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-top: 4px solid var(--color-accent);
+  border-radius: 0.9rem;
+  color: inherit;
+  text-decoration: none;
+  transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+}
+
+@media (hover: hover) {
+  .about-division:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 32px rgba(15, 23, 42, 0.12);
+  }
+}
+
+.about-division:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.about-division-num {
+  color: var(--color-accent-dark);
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.about-division-title {
+  color: var(--color-primary);
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.about-division-text {
+  flex: 1;
+  color: #555;
+  line-height: 1.6;
+}
+
+.about-division-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.75rem;
+  color: var(--color-accent-dark);
+  font-weight: 700;
+}
+
+.about-division-more svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  transition: transform 0.2s ease;
+}
+
+.about-division:hover .about-division-more svg {
+  transform: translateX(4px);
+}
+
+/* Values */
+
+.about-values {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+}
+
+.about-value {
+  padding: 1.5rem;
+  background: #f4fbf6;
+  border-radius: 0.9rem;
+}
+
+.about-value-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-bottom: 0.9rem;
+  border-radius: 0.75rem;
+  background: var(--color-accent);
+  color: #052e25;
+}
+
+.about-value-icon svg {
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+.about-value h4 {
+  margin: 0 0 0.4rem;
+  color: var(--color-primary);
+  font-size: 1.1rem;
+}
+
+.about-value p {
+  margin: 0;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* Commitment */
+
+.about-commitment {
+  max-width: 1400px;
+  margin: 80px auto 0;
+  padding: clamp(1.75rem, 4vw, 2.75rem);
+  background: var(--color-primary);
+  border-left: 6px solid var(--color-accent);
+  border-radius: 1rem;
+  color: #fff;
+}
+
+.about-commitment h3 {
+  margin: 0 0 0.75rem;
+  color: #fff;
+  font-size: clamp(1.35rem, 3vw, 1.75rem);
+}
+
+.about-commitment p {
+  max-width: 75ch;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 1.1rem;
+  line-height: 1.75;
+}
+
+.about-commitment .about-commitment-tag {
+  margin-top: 1.25rem;
+  color: var(--color-accent-lighter);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .about-block,
+  .about-commitment {
+    margin-top: 56px;
+  }
+}
+
+/* Tailwind's preflight resets headings to weight 400 (see main.tsx import order) */
+.about-section h2,
+.about-section h3,
+.about-section h4 {
+  font-weight: 700;
 }

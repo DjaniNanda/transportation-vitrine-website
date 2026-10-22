@@ -16,6 +16,8 @@
  */
 
 export interface ServiceItem {
+  /** URL segment of the detail page: /services/<slug>. Must match an entry in serviceDetails.ts */
+  slug: string;
   icon: 'wrench' | 'car' | 'gauge' | 'zap' | 'settings' | 'shield' | 'truck' | 'package' | 'globe';
   title: string;
   description: string;
@@ -23,6 +25,19 @@ export interface ServiceItem {
   price: string;
   rating?: number; // optional — omit to hide the star badge on the card
   image?: string; // optional — omit for a plain card with no background photo
+}
+
+export interface AboutValue {
+  icon: 'shield' | 'clock' | 'gauge' | 'handshake';
+  title: string;
+  text: string;
+}
+
+export interface TeamMember {
+  image: string;
+  alt: string;
+  name: string;
+  role: string;
 }
 
 export interface Review {
@@ -59,7 +74,7 @@ export const siteConfig = {
     tagline: 'Moving Goods. Connecting Markets.',
     shortDescription:
       'D&TE Translogistics and Services Inc. provides professional moving, transportation, logistics, and international export services across three specialized divisions.',
-    logo: '/logo.png', // TODO: save the uploaded logo image into /public as logo.png (or update this path)
+    logo: '/logo.png', // wide (≈2.5:1) logo in /public — shown on a white plate in the header
     foundedYear: 2024, // TODO: replace with the actual founding year
   },
 
@@ -143,8 +158,10 @@ descriptionHighlight: 'moving, tire export and vehicle export',
     ctaDescription:
       "Contact us today to discuss your moving, tire export, or vehicle export needs — we'll tailor a solution to fit your requirements.",
     ctaButton: 'Get in Touch',
+    learnMore: 'View full details',
     items: [
       {
+        slug: 'moving',
         icon: 'truck',
         title: 'Moving Services',
         description:
@@ -158,6 +175,7 @@ descriptionHighlight: 'moving, tire export and vehicle export',
         image: '/service-moving.jfif', 
       },
       {
+        slug: 'tire-export',
         icon: 'package',
         title: 'Tire Export Services',
         description:
@@ -171,6 +189,7 @@ descriptionHighlight: 'moving, tire export and vehicle export',
         image: '/service-tires.jfif', // TODO: add image
       },
       {
+        slug: 'vehicle-export',
         icon: 'car',
         title: 'Vehicle Export Services',
         description:
@@ -196,13 +215,51 @@ descriptionHighlight: 'moving, tire export and vehicle export',
     intro:
       "D&TE Translogistics and Services Inc. provides professional moving, transportation, logistics, and international export services. Our operations are organized into three primary service areas — {highlight} — delivering safe, efficient, and dependable service tailored to each customer's needs.",
     introHighlight: 'moving, tire export, and vehicle export',
+    // Extra paragraphs shown under the intro. (Replaces the old single `story` line.)
+    overview: [
+      'We are a transportation and logistics company serving households, businesses and international trade customers. By combining local moving expertise with export services for tires and vehicles, we give clients a single dependable partner — whether their goods are crossing the city or crossing an ocean.',
+      'Each of our three divisions has its own scope and process, but they share one standard: clear communication, careful handling, and compliance with applicable customs, import, export and transportation regulations.',
+    ],
+    divisionsTitle: 'Three Divisions, One Standard',
+    divisionsIntro: 'Select a division to see exactly what it covers and how it works.',
+    valuesTitle: 'What You Can Expect From Us',
+    values: [
+      {
+        icon: 'shield',
+        title: 'Professionalism',
+        text: 'Clear quotes, organized processes and respectful communication from first contact to final delivery.',
+      },
+      {
+        icon: 'clock',
+        title: 'Reliability',
+        text: 'We plan each job carefully and do what we commit to, so you can count on your goods and your schedule.',
+      },
+      {
+        icon: 'gauge',
+        title: 'Efficiency',
+        text: 'Transportation, documentation and shipping are coordinated together to avoid delays and unnecessary handling.',
+      },
+      {
+        icon: 'handshake',
+        title: 'Customer Satisfaction',
+        text: 'Every solution is tailored to your needs, and we keep you informed so there are no surprises.',
+      },
+    ] as AboutValue[],
     story: {
       emoji: '🚚',
       title: 'Our Commitment',
       text: 'Whether moving household goods locally or coordinating the international export of tires and vehicles, D&TE Translogistics and Services Inc. is committed to professionalism, reliability, efficiency, and customer satisfaction.',
     },
     ctaButton: 'Contact Us',
-    image: '/about.jpg', // TODO: add image to /public
+    // Team carousel shown on the right of the About text (rotates in a ring).
+    // TODO: replace the placeholder portraits (/public/team-*.svg) with real
+    // photos, and the names / roles with the real team. 3 to ~8 members work well.
+    team: [
+      { image: '/team-1.svg', alt: 'Team member 1', name: 'Team Member 1', role: 'Role / Title' },
+      { image: '/team-2.svg', alt: 'Team member 2', name: 'Team Member 2', role: 'Role / Title' },
+      { image: '/team-3.svg', alt: 'Team member 3', name: 'Team Member 3', role: 'Role / Title' },
+      { image: '/team-4.svg', alt: 'Team member 4', name: 'Team Member 4', role: 'Role / Title' },
+    ] as TeamMember[],
   },
 
   // ---------------------------------------------------------------------
@@ -349,7 +406,7 @@ descriptionHighlight: 'moving, tire export and vehicle export',
     siteUrl: 'https://example.com/',
     // TODO: link-preview image (~1200x630 px). Full URL, or a path such as
     // '/og-image.png' once siteUrl is real. Left out while it's a placeholder.
-    ogImage: 'https://example.com/og-image.png',
+    ogImage: '/og-image.png', // 1200x630 in /public; used once siteUrl above is the real domain
     locale: 'en_US', // TODO: confirm locale/region. Also sets <html lang>.
 
     // Analytics & site verification. Leave a value '' to omit that tag.

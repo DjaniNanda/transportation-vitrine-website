@@ -1,28 +1,34 @@
 import React from 'react';
-import { Building2 } from 'lucide-react';
-import { siteConfig } from '../config/siteConfig';
+import { Link } from 'react-router-dom';
+import { ShieldCheck, Clock, Gauge, Handshake, ArrowRight } from 'lucide-react';
+import { siteConfig, AboutValue } from '../config/siteConfig';
+import { openWhatsApp } from '../utils/whatsapp';
+import TeamCarousel from './TeamCarousel';
 import './About.css';
 
-const About: React.FC = () => {
-  const { about, contact, business } = siteConfig;
+const VALUE_ICONS: Record<AboutValue['icon'], React.ReactNode> = {
+  shield: <ShieldCheck aria-hidden="true" />,
+  clock: <Clock aria-hidden="true" />,
+  gauge: <Gauge aria-hidden="true" />,
+  handshake: <Handshake aria-hidden="true" />,
+};
 
-  const openWhatsApp = () => {
-    const url = `https://wa.me/${contact.whatsappNumber}?text=${encodeURIComponent(contact.whatsappMessage)}`;
-    window.open(url, '_blank');
-  };
+const About: React.FC = () => {
+  const { about, services } = siteConfig;
 
   return (
-    <section id="about" className="about-section">
+    <section id="about" className="about-section" aria-labelledby="about-heading">
+      <div className="section-badge">
+        <span>{about.badge}</span>
+      </div>
+
       <div className="about-content">
         <div className="about-text">
-          <div className="section-badge">
-            <span>{about.badge}</span>
-          </div>
+          <h2 id="about-heading" className="about-title">{about.title}</h2>
 
-          <h1>{about.title}</h1>
-
-          <p>
-            {about.intro.split(about.introHighlight).map((part, idx, arr) => (
+          <p className="about-lead">
+            {/* The config text contains a {highlight} placeholder, replaced by the bold phrase */}
+            {about.intro.split('{highlight}').map((part, idx, arr) => (
               <React.Fragment key={idx}>
                 {part}
                 {idx < arr.length - 1 && <strong>{about.introHighlight}</strong>}
@@ -30,16 +36,19 @@ const About: React.FC = () => {
             ))}
           </p>
 
-          <p>{about.story.text}</p>
+          {about.overview.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
         </div>
 
         <div className="about-image">
-          <img id="one" src={about.image} alt={`${business.name} team`} />
+          <TeamCarousel members={about.team} />
         </div>
       </div>
 
+
       <div className="cta-container">
-        <button className="book-now-button" onClick={openWhatsApp}>
+        <button type="button" className="book-now-button" onClick={() => openWhatsApp()}>
           {about.ctaButton}
         </button>
       </div>

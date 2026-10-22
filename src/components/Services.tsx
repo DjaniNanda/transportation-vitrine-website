@@ -1,8 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
-  Wrench, Car, Gauge, Zap, Settings, Shield, Truck, Package, Globe, CheckCircle, Star, MessageCircle,
+  Wrench, Car, Gauge, Zap, Settings, Shield, Truck, Package, Globe, CheckCircle, ArrowRight,
 } from 'lucide-react';
 import { siteConfig, ServiceItem } from '../config/siteConfig';
+import { openWhatsApp } from '../utils/whatsapp';
 import './Services.css';
 
 const ICONS: Record<ServiceItem['icon'], React.ReactNode> = {
@@ -16,9 +18,6 @@ const ICONS: Record<ServiceItem['icon'], React.ReactNode> = {
   package: <Package aria-hidden="true" />,
   globe: <Globe aria-hidden="true" />,
 };
-
-// Move these into siteConfig.services if the site needs translating.
-const SERVICE_LABEL = 'Service';
 
 /** Flips to true once, the first time the element scrolls into view. */
 function useRevealOnce<T extends HTMLElement>() {
@@ -51,24 +50,12 @@ function useRevealOnce<T extends HTMLElement>() {
 }
 
 const Services: React.FC = () => {
-  const { services, contact } = siteConfig;
+  const { services } = siteConfig;
   const [gridRef, revealed] = useRevealOnce<HTMLUListElement>();
 
   // Cards per row on desktop: the configured maximum, but never more than the
   // number of cards (so 2 cards fill the row instead of leaving a gap).
   const cols = Math.max(1, Math.min(services.columns, services.items.length));
-
-  // Optional `topic` pre-fills the chat with the service the visitor clicked.
-  const openWhatsApp = useCallback(
-    (topic?: string) => {
-      const text = topic
-        ? `${contact.whatsappMessage}\n\n${SERVICE_LABEL}: ${topic}`
-        : contact.whatsappMessage;
-      const url = `https://wa.me/${contact.whatsappNumber}?text=${encodeURIComponent(text)}`;
-      window.open(url, '_blank', 'noopener,noreferrer');
-    },
-    [contact.whatsappNumber, contact.whatsappMessage],
-  );
 
   return (
     <section id="services" className="services" aria-labelledby="services-heading">
@@ -135,6 +122,16 @@ const Services: React.FC = () => {
                       </li>
                     ))}
                   </ul>
+
+                  <div className="service-footer">
+                    {/* The ::after of this link covers the whole card, so the card is
+                        clickable while keeping a single, properly labelled link. */}
+                    <Link to={`/services/${service.slug}`} className="service-button service-link">
+                      {services.learnMore}
+                      <span className="sr-only"> — {service.title}</span>
+                      <ArrowRight aria-hidden="true" />
+                    </Link>
+                  </div>
                 </div>
               </article>
             </li>

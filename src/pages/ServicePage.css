@@ -1,0 +1,624 @@
+/* ==========================================================================
+   Service detail page  (/services/:slug)
+   All colors come from the theme tokens (var(--color-*)), so a rebrand in
+   siteConfig.theme re-skins this page as well. Class prefix: sp-
+   ========================================================================== */
+
+.sp {
+  --sp-ink: var(--color-primary, #1c1c1c);
+  --sp-accent: var(--color-accent, #2fae4e);
+  --sp-accent-dark: var(--color-accent-dark, #1f8a38);
+  --sp-accent-pale: var(--color-accent-pale, #d8f5de);
+  --sp-on-accent: #052e25; /* dark text: white on the green fails WCAG AA */
+  --sp-muted: #4b5563;
+  --sp-line: #e5e7eb;
+  --sp-tint: #f4fbf6;
+  --sp-radius: 1rem;
+
+  padding-top: var(--nav-height, 77px); /* the navbar is position: fixed */
+  color: var(--sp-ink);
+  background: #fff;
+}
+
+.sp-container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Tailwind's preflight (loaded after App.css) resets headings to weight 400,
+   so the weight is set explicitly here. */
+.sp h1,
+.sp h2,
+.sp h3 {
+  font-weight: 700;
+}
+
+/* ---------- Hero ---------- */
+
+.sp-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--sp-ink);
+  color: #fff;
+  padding: clamp(2.5rem, 7vw, 5rem) 0 clamp(3rem, 8vw, 5.5rem);
+}
+
+.sp-hero-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+}
+
+/* Strong enough that white text passes contrast on any photo */
+.sp-hero-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgba(13, 13, 13, 0.92) 0%, rgba(13, 13, 13, 0.78) 55%, rgba(13, 13, 13, 0.6) 100%);
+}
+
+.sp-hero-inner {
+  max-width: 1100px;
+  height: 450px;
+}
+
+.sp-breadcrumb {
+  margin-bottom: 2rem;
+  font-size: 0.875rem;
+}
+
+.sp-breadcrumb ol {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.sp-breadcrumb li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.sp-breadcrumb a {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  padding: 0.25rem 0;
+}
+
+.sp-breadcrumb a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.sp-breadcrumb svg {
+  width: 1rem;
+  height: 1rem;
+  opacity: 0.6;
+}
+
+.sp-eyebrow {
+  display: inline-block;
+  margin: 0 0 2rem;
+  padding: 0.35rem 0.9rem;
+  border: 1px solid rgba(143, 221, 163, 0.5);
+  border-radius: 2rem;
+  color: var(--color-accent-lighter, #8fdda3);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.sp-title {
+  max-width: 22ch;
+  margin: 0 0 1.5rem;
+  color: #fff;
+  font-size: clamp(2rem, 5.5vw, 3.25rem);
+  line-height: 1.4;
+}
+
+.sp-lead {
+  max-width: 58ch;
+  margin: 0 0 2rem;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+  line-height: 1.6;
+}
+
+.sp-hero-actions,
+.sp-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* ---------- Buttons ---------- */
+
+.sp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3rem; /* comfortable touch target */
+  padding: 0.75rem 1.5rem;
+  border: 2px solid transparent;
+  border-radius: 0.75rem;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.sp-btn svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.sp-btn-primary {
+  background: var(--sp-accent);
+  color: var(--sp-on-accent);
+}
+
+.sp-btn-primary:hover {
+  background: var(--color-accent-light, #5bc776);
+  transform: translateY(-1px);
+}
+
+.sp-btn-ghost {
+  background: transparent;
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.55);
+}
+
+.sp-btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #fff;
+}
+
+.sp-btn-block {
+  width: 100%;
+}
+
+.sp-btn:focus-visible,
+.sp-breadcrumb a:focus-visible,
+.sp-more-card:focus-visible,
+.sp-faq-item summary:focus-visible,
+.sp-aside-phone:focus-visible {
+  outline: 3px solid var(--sp-accent);
+  outline-offset: 3px;
+}
+
+/* ---------- Generic sections ---------- */
+
+/* Overrides the global `section { padding: 3rem 0 }` with fluid spacing */
+.sp .sp-section {
+  padding: clamp(3rem, 7vw, 5rem) 0;
+}
+
+.sp-section-tint {
+  background: var(--sp-tint);
+}
+
+.sp-section-head {
+  max-width: 62ch;
+  margin-bottom: clamp(1.75rem, 4vw, 2.75rem);
+}
+
+.sp-section-head p {
+  color: var(--sp-muted);
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.sp-h2 {
+  position: relative;
+  margin: 0 0 1rem;
+  padding-bottom: 0.9rem;
+  font-size: clamp(1.55rem, 3.4vw, 2.1rem);
+  line-height: 1.2;
+}
+
+.sp-h2::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 4.5rem;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--sp-accent);
+}
+
+/* ---------- Overview ---------- */
+
+.sp-overview {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 340px);
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: start;
+}
+
+.sp-overview-text p {
+  max-width: 68ch;
+  margin-bottom: 1.25rem;
+  color: #374151;
+  font-size: 1.075rem;
+  line-height: 1.8;
+}
+
+.sp-aside {
+  position: sticky;
+  top: calc(var(--nav-height, 77px) + 1.5rem);
+  padding: 1.75rem;
+  background: var(--sp-ink);
+  color: #fff;
+  border-radius: var(--sp-radius);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.18);
+}
+
+.sp-aside h3 {
+  margin: 0 0 0.5rem;
+  color: #fff;
+  font-size: 1.25rem;
+}
+
+.sp-aside p {
+  margin: 0 0 1.25rem;
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.6;
+}
+
+.sp-aside-phone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.5rem;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.sp-aside-phone:hover {
+  text-decoration: underline;
+}
+
+.sp-aside-phone svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  color: var(--color-accent-lighter, #8fdda3);
+}
+
+/* ---------- What's included ---------- */
+
+.sp-offerings {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 1.25rem;
+}
+
+.sp-offering {
+  padding: 1.75rem;
+  background: #fff;
+  border: 1px solid var(--sp-line);
+  border-radius: var(--sp-radius);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+@media (hover: hover) {
+  .sp-offering:hover {
+    border-color: var(--sp-accent);
+    box-shadow: 0 12px 28px rgba(47, 174, 78, 0.14);
+  }
+}
+
+.sp-offering-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 1rem;
+  border-radius: 0.85rem;
+  background: var(--sp-accent-pale);
+  color: var(--sp-accent-dark);
+}
+
+.sp-offering-icon svg {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.sp-offering h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.15rem;
+}
+
+.sp-offering p {
+  color: var(--sp-muted);
+  line-height: 1.65;
+}
+
+/* ---------- Process (numbered with CSS counters: no extra markup) ---------- */
+
+.sp-steps {
+  list-style: none;
+  counter-reset: step;
+  display: grid;
+  gap: 0;
+  max-width: 760px;
+}
+
+.sp-step {
+  counter-increment: step;
+  position: relative;
+  padding: 0 0 2rem 4rem;
+}
+
+.sp-step:last-child {
+  padding-bottom: 0;
+}
+
+.sp-step::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background: var(--sp-accent);
+  color: var(--sp-on-accent);
+  font-weight: 800;
+  font-size: 1.05rem;
+}
+
+/* Connector line between the numbers */
+.sp-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: calc(1.375rem - 1px);
+  top: 3rem;
+  bottom: 0.35rem;
+  width: 2px;
+  background: var(--sp-line);
+}
+
+.sp-step h3 {
+  margin: 0.3rem 0 0.35rem;
+  font-size: 1.15rem;
+}
+
+.sp-step p {
+  color: var(--sp-muted);
+  line-height: 1.7;
+}
+
+/* ---------- Requirements ---------- */
+
+.sp-req {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: start;
+}
+
+.sp-req-intro {
+  color: var(--sp-muted);
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.sp-checklist {
+  list-style: none;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.sp-checklist li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding: 1rem 1.15rem;
+  background: #fff;
+  border: 1px solid var(--sp-line);
+  border-radius: 0.85rem;
+  line-height: 1.55;
+}
+
+.sp-checklist svg {
+  flex-shrink: 0;
+  width: 1.3rem;
+  height: 1.3rem;
+  margin-top: 0.1rem;
+  color: var(--sp-accent-dark);
+}
+
+/* ---------- FAQ (native <details>: keyboard + screen-reader support for free) ---------- */
+
+.sp-faq {
+  display: grid;
+  max-width: 820px; /* readable line length, but the left edge still matches the other sections */
+  gap: 0.75rem;
+}
+
+.sp-faq-item {
+  background: #fff;
+  border: 1px solid var(--sp-line);
+  border-radius: 0.85rem;
+  overflow: hidden;
+}
+
+.sp-faq-item[open] {
+  border-color: var(--sp-accent);
+}
+
+.sp-faq-item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 3.5rem;
+  padding: 1rem 1.25rem;
+  font-weight: 650;
+  line-height: 1.4;
+  cursor: pointer;
+  list-style: none; /* hide the default marker (Firefox/Chrome) */
+}
+
+.sp-faq-item summary::-webkit-details-marker {
+  display: none; /* Safari */
+}
+
+.sp-faq-item summary svg {
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--sp-accent-dark);
+  transition: transform 0.2s ease;
+}
+
+.sp-faq-item[open] summary svg {
+  transform: rotate(90deg);
+}
+
+.sp-faq-item p {
+  padding: 0 1.25rem 1.25rem;
+  color: var(--sp-muted);
+  line-height: 1.7;
+}
+
+/* ---------- Other services + final CTA ---------- */
+
+.sp-more {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: 1rem;
+  margin-bottom: clamp(2.5rem, 6vw, 4rem);
+}
+
+.sp-more-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  height: 100%;
+  padding: 1.35rem 1.5rem;
+  background: #fff;
+  border: 1px solid var(--sp-line);
+  border-radius: var(--sp-radius);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sp-more-card:hover {
+  border-color: var(--sp-accent);
+  box-shadow: 0 12px 28px rgba(47, 174, 78, 0.14);
+}
+
+.sp-more-card strong {
+  display: block;
+  font-size: 1.1rem;
+}
+
+.sp-more-card small {
+  display: block;
+  margin-top: 0.2rem;
+  color: var(--sp-muted);
+  font-size: 0.9rem;
+}
+
+.sp-more-card svg {
+  flex-shrink: 0;
+  width: 1.4rem;
+  height: 1.4rem;
+  color: var(--sp-accent-dark);
+  transition: transform 0.2s ease;
+}
+
+.sp-more-card:hover svg {
+  transform: translateX(4px);
+}
+
+.sp-cta {
+  padding: clamp(2rem, 5vw, 3.25rem) clamp(1.25rem, 4vw, 2.5rem);
+  background: var(--sp-ink);
+  color: #fff;
+  border-radius: 1.75rem;
+  text-align: center;
+}
+
+.sp-cta h2 {
+  margin: 0 0 0.75rem;
+  color: #fff;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+}
+
+.sp-cta p {
+  max-width: 50ch;
+  margin: 0 auto 1.75rem;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.sp-cta-actions {
+  justify-content: center;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 900px) {
+  .sp-overview,
+  .sp-req {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sp-aside {
+    position: static; /* sticky only makes sense next to the text */
+  }
+}
+
+@media (max-width: 560px) {
+  .sp-container {
+    padding: 0 1.1rem;
+  }
+
+  .sp-hero-actions .sp-btn,
+  .sp-cta-actions .sp-btn {
+    width: 100%;
+  }
+
+  .sp-step {
+    padding-left: 3.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sp *,
+  .sp *::before,
+  .sp *::after {
+    transition: none !important;
+  }
+}

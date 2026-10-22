@@ -264,7 +264,6 @@
   font-weight: 600;
 }
 
-.exact-hour-row.exact-closed .exact-day,
 .exact-hour-row.exact-closed .exact-time {
   color: #dc2626;
 }

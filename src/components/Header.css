@@ -11,7 +11,7 @@
 */
 
 :root {
-  --nav-height: 77px;
+  --nav-height: 70px;
   --nav-collapse-bp: 1100px; /* documentation only: media queries can't read variables */
 }
 
@@ -52,15 +52,16 @@ html {
   flex-shrink: 0;
 }
 
+/* The logo is a wide (≈2.5:1) mark with dark lettering, so it sits on a white
+   rounded plate to stay readable against the charcoal bar. */
 .navbar-brand img {
+  display: block;
   margin-left: clamp(0px, 1.5vw, 25px);
-  width: clamp(52px, 6vw, 75px);
-  height: clamp(52px, 6vw, 75px);
-  max-height: calc(var(--nav-height) - 2px);
-  object-fit: cover;
-  padding: 4px;
-  border-radius: 50%;
-  border: 2px solid #fff;
+  height: clamp(46px, 5vw, 58px);
+  width: auto;
+  max-width: 100%;
+  padding: 1px 8px;
+  border-radius: 10px;
   background: #fff;
 }
 
@@ -89,7 +90,7 @@ html {
   font-size: 13px;
   font-weight: 500;
   text-decoration: none;
-  margin-right: 100px;
+  margin-right: 90px;
   height: 44px;
   display: flex;
   align-items: center;
@@ -118,7 +119,7 @@ html {
 
 /* "Call Us" button — the one CTA kept in the navbar */
 .nav-item-call {
-  margin-left: clamp(24px, 6vw, 200px);
+  margin-left: clamp(24px, -0.5vw, 200px);
 }
 
 .call-button {
@@ -271,8 +272,7 @@ html {
   }
 
   .navbar-brand img {
-    width: 52px;
-    height: 52px;
+    height: 42px;
     margin-left: 0;
   }
 
@@ -316,6 +316,130 @@ html {
   .navbar-nav .nav-link,
   .call-button,
   .floating-call-button {
+    transition: none;
+  }
+}
+
+/* ---------- "Services" dropdown ---------- */
+.nav-item-dropdown {
+  position: relative;
+}
+
+/* The trigger is a <button> that must look exactly like the other links */
+.navbar-nav .nav-dropdown-toggle {
+  background: none;
+  border: 0;
+  font-family: inherit;
+  gap: 4px;
+}
+
+@media (min-width: 1101px) {
+  .navbar-nav .nav-dropdown-toggle {
+    padding: 0;
+  }
+}
+
+.nav-chevron {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.2s;
+}
+
+.nav-item-dropdown.open .nav-chevron {
+  transform: rotate(180deg);
+}
+
+.dropdown-menu {
+  display: none;
+  list-style: none;
+  margin: 0;
+  padding: 8px;
+  min-width: 250px;
+  background-color: var(--color-primary);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+}
+
+.nav-item-dropdown.open .dropdown-menu {
+  display: block;
+}
+
+.dropdown-link {
+  display: block;
+  padding: 12px 14px;
+  border-radius: 8px;
+  color: var(--color-accent-light);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.dropdown-link:hover,
+.dropdown-link:focus-visible {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.dropdown-link:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: -2px;
+}
+
+/* Desktop: floating panel under the link (open state is driven by Header.tsx: hover, click, keyboard) */
+@media (min-width: 1101px) {
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: -14px;
+    margin-top: 14px;
+  }
+
+  /* invisible bridge so the menu doesn't close while the pointer crosses the gap */
+  .dropdown-menu::before {
+    content: '';
+    position: absolute;
+    top: -16px;
+    left: 0;
+    right: 0;
+    height: 16px;
+  }
+}
+
+/* Mobile / tablet: inline accordion inside the slide-down panel */
+@media (max-width: 1100px) {
+  .navbar-nav .nav-dropdown-toggle {
+    justify-content: space-between;
+    text-align: left;
+  }
+
+  .nav-chevron {
+    width: 18px;
+    height: 18px;
+  }
+
+  .dropdown-menu {
+    min-width: 0;
+    padding: 0 0 8px;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background-color: rgba(255, 255, 255, 0.04);
+  }
+
+  .dropdown-link {
+    padding: 12px 5% 12px calc(5% + 16px);
+    border-radius: 0;
+    font-size: 15px;
+    white-space: normal;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-chevron,
+  .dropdown-link {
     transition: none;
   }
 }

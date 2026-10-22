@@ -1,0 +1,155 @@
+/* Team carousel: cards on a rotating 3D ring. Colors come from theme variables. */
+
+.team-carousel {
+  --card-w: clamp(120px, 30vw, 190px);
+  width: 100%;
+  max-width: 600px;
+  outline: none;
+}
+
+.team-carousel:focus-visible .team-stage {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 6px;
+  border-radius: 20px;
+}
+
+.team-stage {
+  position: relative;
+  height: calc(var(--card-w) * 1.2 + 40px);
+  perspective: 1100px;
+  perspective-origin: 50% 40%;
+  overflow: hidden;
+  touch-action: pan-y;
+  user-select: none;
+  cursor: grab;
+}
+
+.team-stage:active {
+  cursor: grabbing;
+}
+
+.team-ring {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  width: var(--card-w);
+  height: calc(var(--card-w) * 1.2);
+  margin-left: calc(var(--card-w) / -2);
+  transform-style: preserve-3d;
+  transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.team-card {
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 20px;
+  background: #fff;
+  overflow: hidden;
+  cursor: pointer;
+  backface-visibility: hidden;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  transition: opacity 0.6s ease, border-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+.team-card.is-active {
+  border-color: var(--color-accent);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25), 0 0 0 6px rgba(47, 174, 78, 0.14);
+  cursor: default;
+}
+
+.team-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.team-caption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  margin-top: 14px;
+  text-align: center;
+}
+
+.team-caption strong {
+  font-size: 1.05rem;
+  color: var(--color-primary);
+}
+
+.team-caption span {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--color-accent-dark);
+}
+
+.team-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 14px;
+}
+
+.team-arrow {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.team-arrow:hover {
+  background: var(--color-accent);
+  color: #000;
+  transform: scale(1.08);
+}
+
+.team-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.team-dot {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #cfd4d9;
+  cursor: pointer;
+  transition: background-color 0.3s, width 0.3s;
+}
+
+.team-dot.active {
+  width: 26px;
+  border-radius: 6px;
+  background: var(--color-accent);
+}
+
+@media (max-width: 600px) {
+  .team-carousel {
+    --card-w: clamp(110px, 34vw, 160px);
+  }
+  .team-card {
+    border-radius: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .team-ring,
+  .team-card {
+    transition-duration: 0.01ms;
+  }
+}
